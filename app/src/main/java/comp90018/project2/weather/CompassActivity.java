@@ -28,7 +28,6 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     private SensorManager mSensorManager;
 
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +65,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        final float alpha = 0.97f;
+        final float alpha = 0.8f;
         synchronized (this) {
             if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 mGravity[0] = alpha * mGravity[0] + (1 - alpha) * sensorEvent.values[0];
@@ -99,7 +98,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
         currentDegree = degree;
-        rotateAnimation.setDuration(500);
+        rotateAnimation.setDuration(1000);
         rotateAnimation.setRepeatCount(0);
         compassImageView.setAnimation(rotateAnimation);
     }

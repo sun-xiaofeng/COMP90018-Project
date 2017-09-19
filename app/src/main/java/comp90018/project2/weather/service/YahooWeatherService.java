@@ -20,6 +20,9 @@ import comp90018.project2.weather.data.Channel;
  */
 
 public class YahooWeatherService {
+
+    private static final String TAG = YahooWeatherService.class.getName();
+
     private WeatherServiceCallback callback;
     private String location;
     private Exception error;
@@ -59,20 +62,22 @@ public class YahooWeatherService {
 
             @Override
             protected void onPostExecute(String s) {
-                if (s == null && error != null) {
+                if (s == null || error != null) {
                     callback.serviceFailure(error);
                     return;
                 }
                 try {
+                    Log.d(TAG, s);
                     JSONObject data = new JSONObject(s);
                     JSONObject queryResults = data.optJSONObject("query");
                     int count = queryResults.optInt("count");
                     if (count == 0) {
                         callback.serviceFailure(new LocationWeatherException("No weather information for " + location));
+                    } else {
+                        Channel channel = new Channel();
+                        channel.populate(queryResults.optJSONObject("results").optJSONObject("channel"));
+                        callback.serviceSuccess(channel);
                     }
-                    Channel channel = new Channel();
-                    channel.populate(queryResults.optJSONObject("results").optJSONObject("channel"));
-                    callback.serviceSuccess(channel);
                 } catch (JSONException e) {
                     callback.serviceFailure(e);
                 }

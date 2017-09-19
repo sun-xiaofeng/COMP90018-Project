@@ -52,7 +52,7 @@
         android:layout_marginBottom="72dp"
         android:backgroundTint="@android:color/darker_gray"
         android:ems="10"
-        android:hint="Location"
+        android:hint="@string/prompt"
         android:imeOptions="actionDone"
         android:inputType="textPersonName" />
 
