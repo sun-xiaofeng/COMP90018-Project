@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="comp90018.project2.weather.WeatherActivity"
+    tools:layout_editor_absoluteY="0dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <TextView
+        android:id="@+id/temperature_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/temperature"
+        android:textSize="22sp"
+        android:layout_below="@+id/weatherIconImageView"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/condition_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/temperature_text_view"
+        android:layout_centerHorizontal="true"
+        android:text="@string/condition"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/location_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/location"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/condition_text_view" />
+
+    <ImageView
+        android:id="@+id/weatherIconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/icon_na"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="72dp"
+        android:backgroundTint="@android:color/darker_gray"
+        android:ems="10"
+        android:hint="Location"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/toCompassButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Open Compass" />
+
+</RelativeLayout>
+
