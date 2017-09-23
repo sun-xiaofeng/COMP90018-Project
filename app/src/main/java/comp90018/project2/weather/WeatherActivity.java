@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -21,8 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Stack;
-
 import comp90018.project2.weather.data.Channel;
 import comp90018.project2.weather.data.Item;
 import comp90018.project2.weather.data.LocationResult;
@@ -31,8 +29,6 @@ import comp90018.project2.weather.service.LocationService;
 import comp90018.project2.weather.service.WeatherServiceCallback;
 import comp90018.project2.weather.service.YahooWeatherService;
 
-import static android.R.id.input;
-import static comp90018.project2.weather.R.string.location;
 
 public class WeatherActivity extends AppCompatActivity implements WeatherServiceCallback, LocationListener, LocationServiceListener {
 
@@ -48,8 +44,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private YahooWeatherService weatherService;
     private LocationService locationService;
     private ProgressDialog dialog;
-
-    private Stack<String> previousLocations = new Stack<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +85,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         super.onStart();
         dialog = new ProgressDialog(this);
         showLoadingDialog();
-        if (!previousLocations.isEmpty()) {
-            String location = previousLocations.peek();
-            weatherService.refreshWeather(location);
-        } else {
-            getWeatherFromCurrentLocation();
-        }
+        getWeatherFromCurrentLocation();
     }
 
     @Override
@@ -104,10 +93,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         dialog.hide();
         Item item = channel.getItem();
         int resourceId = getResources().getIdentifier("drawable/icon_" + item.getCondition().getCode(), null, getPackageName());
-        @SuppressWarnings("deprecation")
-        Drawable weatherIconDrawable = getResources().getDrawable(resourceId);
-
-        weatherIconImageView.setImageDrawable(weatherIconDrawable);
+        weatherIconImageView.setImageResource(resourceId);
         temperatureTextView.setText(item.getCondition().getTemperature() + "\u00B0" + channel.getUnits().getTemperature());
         conditionTextView.setText(item.getCondition().getDescription());
         locationTextView.setText(weatherService.getLocation());
@@ -143,7 +129,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     @Override
     public void geocodeSuccess(LocationResult locationResult) {
         String location = locationResult.getAddress();
-        previousLocations.push(location);
         weatherService.refreshWeather(location);
     }
 
@@ -155,20 +140,34 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
 
     private void getWeatherFromCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION,
             }, REQUEST_LOCATION);
         } else {
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this, null);
+            boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            Criteria locationCriteria = new Criteria();
+
+            if (isNetworkEnabled) {
+                locationCriteria.setAccuracy(Criteria.ACCURACY_COARSE);
+            } else if (isGPSEnabled) {
+                locationCriteria.setAccuracy(Criteria.ACCURACY_FINE);
+            }
+            locationManager.requestSingleUpdate(locationCriteria, this, null);
         }
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_LOCATION:
-                getWeatherFromCurrentLocation();
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getWeatherFromCurrentLocation();
+                } else {
+                    dialog.hide();
+                    Toast.makeText(this, "Location permission denied!", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
