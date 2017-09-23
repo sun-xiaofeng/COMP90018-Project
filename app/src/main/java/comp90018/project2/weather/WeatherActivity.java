@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -45,6 +46,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private LocationService locationService;
     private ProgressDialog dialog;
 
+    private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +79,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
             }
         });
 
+        preferences = getSharedPreferences("MyPref", 0);
+
         weatherService = new YahooWeatherService(this);
         locationService = new LocationService(this, this);
     }
@@ -85,7 +90,12 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         super.onStart();
         dialog = new ProgressDialog(this);
         showLoadingDialog();
-        getWeatherFromCurrentLocation();
+        String locationCache = preferences.getString("location_cache", null);
+        if (locationCache != null) {
+            weatherService.refreshWeather(locationCache);
+        } else  {
+            getWeatherFromCurrentLocation();
+        }
     }
 
     @Override
@@ -129,6 +139,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     @Override
     public void geocodeSuccess(LocationResult locationResult) {
         String location = locationResult.getAddress();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("location_cache", location);
+        editor.apply();
         weatherService.refreshWeather(location);
     }
 
@@ -159,6 +172,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         }
     }
 
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_LOCATION:
@@ -178,14 +192,11 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
 
     @Override
-    public void onProviderEnabled(String provider) {
-    }
+    public void onProviderEnabled(String provider) {}
 
     @Override
-    public void onProviderDisabled(String provider) {
-    }
+    public void onProviderDisabled(String provider) {}
 }
