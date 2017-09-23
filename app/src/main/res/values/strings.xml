@@ -4,4 +4,10 @@
     <string name="condition">Condition</string>
     <string name="location">Location</string>
     <string name="prompt">City, Country</string>
+    <string name="day">Day</string>
+    <string name="high">High</string>
+    <string name="low">Low</string>
+    <string name="switch_to_compass">Open Compass</string>
+    <string name="switch_to_weather">Open Weather</string>
+
 </resources>

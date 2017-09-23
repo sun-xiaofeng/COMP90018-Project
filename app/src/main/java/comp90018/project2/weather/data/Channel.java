@@ -2,14 +2,11 @@ package comp90018.project2.weather.data;
 
 import org.json.JSONObject;
 
-/**
- * Created by sunxiaofeng208 on 2017/9/12.
- */
 
 public class Channel implements JSONPopulator {
     private Units units;
+    private Location location;
     private Item item;
-    private String location;
 
     public Units getUnits() {
         return units;
@@ -19,7 +16,7 @@ public class Channel implements JSONPopulator {
         return item;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
@@ -29,12 +26,7 @@ public class Channel implements JSONPopulator {
         units.populate(data.optJSONObject("units"));
         item = new Item();
         item.populate(data.optJSONObject("item"));
-
-        JSONObject locationData = data.optJSONObject("location");
-
-        String region = locationData.optString("region");
-        String country = locationData.optString("country");
-
-        location = String.format("%s, %s", locationData.optString("city"), (region.length() != 0 ? region : country));
+        location = new Location();
+        location.populate(data.optJSONObject("location"));
     }
 }

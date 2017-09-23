@@ -18,22 +18,27 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import comp90018.project2.weather.data.Channel;
+import comp90018.project2.weather.data.Condition;
 import comp90018.project2.weather.data.Item;
-import comp90018.project2.weather.data.LocationResult;
-import comp90018.project2.weather.listener.LocationServiceListener;
-import comp90018.project2.weather.service.LocationService;
+import comp90018.project2.weather.service.GeocodingResult;
+import comp90018.project2.weather.data.Units;
+import comp90018.project2.weather.fragments.ForecastFragment;
+import comp90018.project2.weather.listener.GeocodingServiceListener;
+import comp90018.project2.weather.service.GeocodingService;
 import comp90018.project2.weather.service.WeatherServiceCallback;
 import comp90018.project2.weather.service.YahooWeatherService;
 
 
-public class WeatherActivity extends AppCompatActivity implements WeatherServiceCallback, LocationListener, LocationServiceListener {
+public class WeatherActivity extends AppCompatActivity implements WeatherServiceCallback, LocationListener, GeocodingServiceListener {
 
-    public static final int REQUEST_LOCATION = 1;
+    public static final int LOCATION_REQUEST_CODE = 1;
+    public static final int FORECAST_DAYS = 5;
 
     private ImageView weatherIconImageView;
     private TextView temperatureTextView;
@@ -41,10 +46,13 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private TextView locationTextView;
     private EditText searchEditText;
     private Button switchButton;
+    private ImageButton locationButton;
 
     private YahooWeatherService weatherService;
-    private LocationService locationService;
+    private GeocodingService geocodingService;
     private ProgressDialog dialog;
+
+    private ForecastFragment[] fragments;
 
     private SharedPreferences preferences;
 
@@ -54,17 +62,17 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         setContentView(R.layout.activity_weather);
 
         weatherIconImageView = (ImageView) findViewById(R.id.weatherIconImageView);
-        temperatureTextView = (TextView) findViewById(R.id.temperature_text_view);
-        conditionTextView = (TextView) findViewById(R.id.condition_text_view);
-        locationTextView = (TextView) findViewById(R.id.location_text_view);
+        temperatureTextView = (TextView) findViewById(R.id.temperatureTextView);
+        conditionTextView = (TextView) findViewById(R.id.conditionTextView);
+        locationTextView = (TextView) findViewById(R.id.locationTextView);
         searchEditText = (EditText) findViewById(R.id.editText);
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    getWeatherBySearch(v.getText().toString());
-                    v.setText("");
+                    getWeatherBySearch(view.getText().toString().trim());
+                    view.setText("");
                 }
                 return false;
             }
@@ -73,16 +81,33 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         switchButton = (Button) findViewById(R.id.toCompassButton);
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(WeatherActivity.this, CompassActivity.class);
                 startActivity(intent);
             }
         });
 
+        locationButton = (ImageButton) findViewById(R.id.locationButton);
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLoadingDialog();
+                getWeatherForCurrentLocation();
+            }
+        });
+
+
+        fragments = new ForecastFragment[FORECAST_DAYS];
+        fragments[0] = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.forecastDay1);
+        fragments[1] = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.forecastDay2);
+        fragments[2] = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.forecastDay3);
+        fragments[3] = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.forecastDay4);
+        fragments[4] = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.forecastDay5);
+
         preferences = getSharedPreferences("MyPref", 0);
 
         weatherService = new YahooWeatherService(this);
-        locationService = new LocationService(this, this);
+        geocodingService = new GeocodingService(this, this);
     }
 
     @Override
@@ -94,7 +119,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         if (locationCache != null) {
             weatherService.refreshWeather(locationCache);
         } else  {
-            getWeatherFromCurrentLocation();
+            getWeatherForCurrentLocation();
         }
     }
 
@@ -102,11 +127,18 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     public void serviceSuccess(Channel channel) {
         dialog.hide();
         Item item = channel.getItem();
-        int resourceId = getResources().getIdentifier("drawable/icon_" + item.getCondition().getCode(), null, getPackageName());
+        Units units = channel.getUnits();
+        int resourceId = getResources().getIdentifier("drawable/icon_" + item.getCondition().getCode(),
+                null, getPackageName());
         weatherIconImageView.setImageResource(resourceId);
-        temperatureTextView.setText(item.getCondition().getTemperature() + "\u00B0" + channel.getUnits().getTemperature());
+        temperatureTextView.setText(item.getCondition().getTemperature() + "\u00B0" + units.getTemperature());
         conditionTextView.setText(item.getCondition().getDescription());
-        locationTextView.setText(weatherService.getLocation());
+        locationTextView.setText(channel.getLocation().toString());
+
+        Condition[] forecast = item.getForecast();
+        for (int i = 0; i < FORECAST_DAYS; i++) {
+            fragments[i].loadWeatherForecast(forecast[i], units);
+        }
     }
 
     @Override
@@ -115,29 +147,13 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
     }
 
-    private void getWeatherBySearch(String inputText) {
-        inputText = inputText.trim();
-        if (!inputText.isEmpty()) {
-            if (!isValidLocation(inputText)) {
-                Toast.makeText(this, "Invalid location!", Toast.LENGTH_SHORT).show();
-            } else {
-                showLoadingDialog();
-                weatherService.refreshWeather(inputText);
-            }
-        }
-    }
-
-    private boolean isValidLocation(String location) {
-        return location.matches("[a-zA-Z]+(, [a-zA-Z]+)?");
-    }
-
     private void showLoadingDialog() {
         dialog.setMessage("Loading...");
         dialog.show();
     }
 
     @Override
-    public void geocodeSuccess(LocationResult locationResult) {
+    public void geocodeSuccess(GeocodingResult locationResult) {
         String location = locationResult.getAddress();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("location_cache", location);
@@ -151,12 +167,26 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         Toast.makeText(this, exception.getMessage(), Toast.LENGTH_LONG).show();
     }
 
-    private void getWeatherFromCurrentLocation() {
+    private void getWeatherBySearch(String location) {
+        if (!location.isEmpty()) {
+            if (!isValidLocation(location)) {
+                Toast.makeText(this, "Invalid location!", Toast.LENGTH_SHORT).show();
+            } else {
+                showLoadingDialog();
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("location_cache", location);
+                editor.apply();
+                weatherService.refreshWeather(location);
+            }
+        }
+    }
+
+    private void getWeatherForCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION,
-            }, REQUEST_LOCATION);
+            }, LOCATION_REQUEST_CODE);
         } else {
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -175,9 +205,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_LOCATION:
+            case LOCATION_REQUEST_CODE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getWeatherFromCurrentLocation();
+                    getWeatherForCurrentLocation();
                 } else {
                     dialog.hide();
                     Toast.makeText(this, "Location permission denied!", Toast.LENGTH_SHORT).show();
@@ -188,7 +218,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
 
     @Override
     public void onLocationChanged(Location location) {
-        locationService.refreshLocation(location);
+        geocodingService.refreshLocation(location);
     }
 
     @Override
@@ -199,4 +229,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
 
     @Override
     public void onProviderDisabled(String provider) {}
+
+    private boolean isValidLocation(String location) {
+        return location.matches("[a-zA-Z]+(, [a-zA-Z]+)?");
+    }
 }

@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
+    android:paddingEnd="48dp"
+    android:paddingStart="48dp"
+    tools:context="comp90018.project2.weather.fragments.ForecastFragment">
+
+    <TextView
+        android:id="@+id/dayTextView"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/day"
+        android:textAllCaps="true"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/highTemperatureTextView"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="@string/high"
+        android:textAllCaps="false"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/lowTemperatureTextView"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/low"
+        android:textAllCaps="false"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/weatherIconImageView"
+        android:layout_width="112dp"
+        android:layout_height="36dp"
+        app:srcCompat="@drawable/icon_na" />
+
+</LinearLayout>

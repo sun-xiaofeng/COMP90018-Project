@@ -38,6 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Open Weather" />
+        android:text="@string/switch_to_weather" />
 
 </RelativeLayout>

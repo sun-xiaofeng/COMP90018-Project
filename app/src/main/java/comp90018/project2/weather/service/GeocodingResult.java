@@ -1,13 +1,10 @@
-package comp90018.project2.weather.data;
+package comp90018.project2.weather.service;
 
-/**
- * Created by sunxiaofeng208 on 2017/9/19.
- */
 
-public class LocationResult {
+public class GeocodingResult {
     private String address;
 
-    public LocationResult(String address) {
+    public GeocodingResult(String address) {
         this.address = address;
     }
 

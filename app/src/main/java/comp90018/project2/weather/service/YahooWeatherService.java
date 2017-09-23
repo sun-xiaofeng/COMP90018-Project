@@ -2,7 +2,6 @@ package comp90018.project2.weather.service;
 
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,24 +14,16 @@ import java.net.URLConnection;
 
 import comp90018.project2.weather.data.Channel;
 
-/**
- * Created by sunxiaofeng208 on 2017/9/12.
- */
 
 public class YahooWeatherService {
 
-    private static final String TAG = YahooWeatherService.class.getName();
 
     private WeatherServiceCallback callback;
     private String location;
-    private Exception error;
+    private Exception exception;
 
     public YahooWeatherService(WeatherServiceCallback callback) {
         this.callback = callback;
-    }
-
-    public String getLocation() {
-        return location;
     }
 
     public void refreshWeather(String loc) {
@@ -47,28 +38,27 @@ public class YahooWeatherService {
                     URLConnection connection = url.openConnection();
                     InputStream inputStream = connection.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder result = new StringBuilder();
+                    StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        result.append(line);
+                        sb.append(line);
                     }
                     reader.close();
-                    return result.toString();
+                    return sb.toString();
                 } catch (Exception e) {
-                    error = e;
+                    exception = e;
                 }
                 return null;
             }
 
             @Override
-            protected void onPostExecute(String s) {
-                if (s == null || error != null) {
-                    callback.serviceFailure(error);
+            protected void onPostExecute(String response) {
+                if (response == null || exception != null) {
+                    callback.serviceFailure(exception);
                     return;
                 }
                 try {
-                    Log.d(TAG, s);
-                    JSONObject data = new JSONObject(s);
+                    JSONObject data = new JSONObject(response);
                     JSONObject queryResults = data.optJSONObject("query");
                     int count = queryResults.optInt("count");
                     if (count == 0) {

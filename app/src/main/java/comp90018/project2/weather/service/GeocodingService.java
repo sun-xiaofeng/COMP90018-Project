@@ -11,29 +11,25 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import comp90018.project2.weather.data.LocationResult;
-import comp90018.project2.weather.listener.LocationServiceListener;
+import comp90018.project2.weather.listener.GeocodingServiceListener;
 
-/**
- * Created by sunxiaofeng208 on 2017/9/19.
- */
 
-public class LocationService {
-    private static final String TAG = LocationService.class.getName();
+public class GeocodingService {
+    private static final String TAG = GeocodingService.class.getName();
 
     private Context context;
-    private LocationServiceListener listener;
-    private Exception error;
+    private GeocodingServiceListener listener;
+    private Exception exception;
 
-    public LocationService(Context context, LocationServiceListener listener) {
+    public GeocodingService(Context context, GeocodingServiceListener listener) {
         this.context = context;
         this.listener = listener;
     }
 
     public void refreshLocation(Location location) {
-        new AsyncTask<Location, Void, LocationResult>() {
+        new AsyncTask<Location, Void, GeocodingResult>() {
             @Override
-            protected LocationResult doInBackground(Location... locations) {
+            protected GeocodingResult doInBackground(Location... locations) {
                 Location location = locations[0];
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
@@ -43,25 +39,24 @@ public class LocationService {
                     List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
                     if (addressList.size() > 0) {
                         Address address = addressList.get(0);
-                        return new LocationResult(address.getLocality() + ", " + address.getAdminArea());
+                        return new GeocodingResult(address.getLocality() + ", " + address.getAdminArea());
                     }
                 } catch (IOException ex) {
                     Log.e(TAG, ex.toString());
-                    error = ex;
+                    exception = ex;
                 }
                 return null;
             }
 
             @Override
-            protected void onPostExecute(LocationResult location) {
-                if (location == null || error != null) {
-                    listener.geocodeFailure(error);
+            protected void onPostExecute(GeocodingResult location) {
+                if (location == null || exception != null) {
+                    listener.geocodeFailure(exception);
                 } else {
-                    Log.d(TAG, "Success: " + location.getAddress());
+                    Log.d(TAG, location.getAddress());
                     listener.geocodeSuccess(location);
                 }
             }
         }.execute(location);
-
     }
 }
