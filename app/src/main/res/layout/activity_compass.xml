@@ -6,9 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".CompassActivity">
 
-    <include
-        android:id="@+id/toolbar_2"
-        layout="@layout/toolbar"/>
+    <ImageView
+        android:id="@+id/background_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/background_2" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,5 +44,9 @@
             android:text="0"
             android:textSize="24sp" />
     </RelativeLayout>
+
+    <include
+        android:id="@+id/toolbar_2"
+        layout="@layout/toolbar"/>
 
 </RelativeLayout>
