@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/locationItem"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:visible="false"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/weatherItem"
         android:title="Weather" />
     <item
@@ -11,4 +16,5 @@
     <item
         android:id="@+id/aboutItem"
         android:title="About" />
+
 </menu>

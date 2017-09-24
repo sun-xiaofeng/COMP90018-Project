@@ -8,6 +8,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -19,7 +22,6 @@ import android.widget.TextView;
 public class CompassActivity extends AppCompatActivity implements SensorEventListener {
     private ImageView compassImageView;
     private TextView degreesTextView;
-    private Button switchButton;
 
     private float[] mGravity = new float[3];
     private float[] mGeomagnetic = new float[3];
@@ -36,14 +38,9 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         compassImageView = (ImageView) findViewById(R.id.back);
         degreesTextView = (TextView) findViewById(R.id.degrees);
 
-        switchButton = (Button) findViewById(R.id.toWeatherButton);
-        switchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CompassActivity.this, WeatherActivity.class);
-                startActivity(intent);
-            }
-        });
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_2);
+        setSupportActionBar(toolbar);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     }
@@ -105,4 +102,26 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.popup_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.weatherItem:
+                startWeatherActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void startWeatherActivity() {
+        Intent intent = new Intent(CompassActivity.this, WeatherActivity.class);
+        startActivity(intent);
+    }
 }

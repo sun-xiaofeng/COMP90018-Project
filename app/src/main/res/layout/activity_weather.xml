@@ -8,9 +8,8 @@
     tools:layout_editor_absoluteY="0dp"
     tools:layout_editor_absoluteX="0dp">
 
-
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
@@ -22,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_alignTop="@+id/locationButton"
+        android:layout_alignTop="@+id/
+                                 "
         android:background="@drawable/shape"
         android:layout_centerHorizontal="true">
         <TextView
@@ -67,7 +67,14 @@
             android:textSize="22sp" />
     </RelativeLayout>
 
-
+    <ImageView
+        android:id="@+id/weatherIconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="96dp"
+        android:layout_marginTop="8dp"
+        app:srcCompat="@drawable/icon_na"
+        android:layout_below="@+id/toolbar_1"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/editText"
@@ -133,26 +140,9 @@
             tools:layout="@layout/fragment_weather_condition" />
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/locationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:srcCompat="@android:drawable/ic_menu_mylocation"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/toolbar" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+    <include
+        android:id="@+id/toolbar_1"
+        layout="@layout/toolbar"/>
 
 </RelativeLayout>
 

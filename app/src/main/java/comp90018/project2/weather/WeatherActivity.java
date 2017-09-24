@@ -17,11 +17,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +45,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private TextView conditionTextView;
     private TextView locationTextView;
     private EditText searchEditText;
-    private ImageButton locationButton;
 
     private YahooWeatherService weatherService;
     private GeocodingService geocodingService;
@@ -80,17 +76,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_1);
         setSupportActionBar(toolbar);
-
-        locationButton = (ImageButton) findViewById(R.id.locationButton);
-        locationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showLoadingDialog();
-                getWeatherForCurrentLocation();
-            }
-        });
 
 
         fragments = new ForecastFragment[FORECAST_DAYS];
@@ -230,12 +217,17 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popup_menu, menu);
+        menu.findItem(R.id.locationItem).setVisible(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.locationItem:
+                showLoadingDialog();
+                getWeatherForCurrentLocation();
+                return true;
             case R.id.compassItem:
                 startCompassActivity();
                 return true;
