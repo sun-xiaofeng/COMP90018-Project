@@ -10,15 +10,14 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +43,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private TextView temperatureTextView;
     private TextView conditionTextView;
     private TextView locationTextView;
-    private EditText searchEditText;
 
     private YahooWeatherService weatherService;
     private GeocodingService geocodingService;
@@ -63,20 +61,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         temperatureTextView = (TextView) findViewById(R.id.temperatureTextView);
         conditionTextView = (TextView) findViewById(R.id.conditionTextView);
         locationTextView = (TextView) findViewById(R.id.locationTextView);
-        searchEditText = (EditText) findViewById(R.id.editText);
-
-        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    getWeatherBySearch(view.getText().toString().trim());
-                    view.setText("");
-                }
-                return false;
-            }
-        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_1);
+        //toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
 
@@ -186,7 +173,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case LOCATION_REQUEST_CODE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -216,8 +203,28 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.popup_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         menu.findItem(R.id.locationItem).setVisible(true);
+        menu.findItem(R.id.searchItem).setVisible(true);
+
+        final MenuItem searchMenuItem = menu.findItem(R.id.searchItem);
+        final SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.setIconified(true);
+                searchView.clearFocus();
+                getWeatherBySearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
         return true;
     }
 

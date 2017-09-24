@@ -3,11 +3,13 @@
     <string name="temperature">Temperature</string>
     <string name="condition">Condition</string>
     <string name="location">Location</string>
-    <string name="prompt">City, Country</string>
     <string name="day">Day</string>
     <string name="high">High</string>
     <string name="low">Low</string>
-    <string name="switch_to_compass">Open Compass</string>
-    <string name="switch_to_weather">Open Weather</string>
+    <string name="degrees_text">0</string>
+    <string name="weather_item">Weather</string>
+    <string name="compass_item">Compass</string>
+    <string name="about_item">About</string>
+    <string name="search_item">Search</string>
 
 </resources>

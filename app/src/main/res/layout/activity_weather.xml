@@ -8,10 +8,15 @@
     tools:layout_editor_absoluteY="0dp"
     tools:layout_editor_absoluteX="0dp">
 
+    <include
+        android:id="@+id/toolbar_1"
+        layout="@layout/toolbar"/>
+
     <ImageView
         android:id="@+id/background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_1"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/background" />
 
@@ -63,32 +68,17 @@
             android:layout_centerHorizontal="true"
             android:text="@string/temperature"
             android:textColor="@android:color/black"
-            android:textSize="22sp" />
+            android:textSize="24sp" />
     </RelativeLayout>
-
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="11dp"
-        android:backgroundTint="@android:color/darker_gray"
-        android:ems="10"
-        android:hint="@string/prompt"
-        android:imeOptions="actionDone"
-        android:inputType="textPersonName"
-        android:textColorHint="@android:color/black"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/editText"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="96dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/up_layout"
         android:background="@drawable/shape"
@@ -100,6 +90,7 @@
             android:name="comp90018.project2.weather.fragments.ForecastFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             tools:layout="@layout/fragment_weather_condition" />
 
         <fragment
@@ -107,6 +98,7 @@
             android:name="comp90018.project2.weather.fragments.ForecastFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             tools:layout="@layout/fragment_weather_condition" />
 
         <fragment
@@ -114,6 +106,7 @@
             android:name="comp90018.project2.weather.fragments.ForecastFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             tools:layout="@layout/fragment_weather_condition" />
 
         <fragment
@@ -121,6 +114,7 @@
             android:name="comp90018.project2.weather.fragments.ForecastFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             tools:layout="@layout/fragment_weather_condition" />
 
         <fragment
@@ -128,12 +122,19 @@
             android:name="comp90018.project2.weather.fragments.ForecastFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             tools:layout="@layout/fragment_weather_condition" />
     </LinearLayout>
 
-    <include
-        android:id="@+id/toolbar_1"
-        layout="@layout/toolbar"/>
+    <ImageView
+        android:id="@+id/yahooLogoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp"
+        app:srcCompat="@drawable/yahoo_logo" />
+
 
 </RelativeLayout>
 

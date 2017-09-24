@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp"
-    android:paddingEnd="32dp"
-    android:paddingStart="32dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginStart="32dp"
     tools:context="comp90018.project2.weather.fragments.ForecastFragment">
 
     <TextView
@@ -41,7 +41,7 @@
         android:text="@string/low"
         android:textAllCaps="false"
         android:textColor="@android:color/black"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/weatherIconImageView"
