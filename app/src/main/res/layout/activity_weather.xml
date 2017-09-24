@@ -14,11 +14,11 @@
 
     <ImageView
         android:id="@+id/background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/toolbar_1"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/background" />
+        app:srcCompat="@drawable/background_1" />
 
     <RelativeLayout
         android:id="@+id/up_layout"
