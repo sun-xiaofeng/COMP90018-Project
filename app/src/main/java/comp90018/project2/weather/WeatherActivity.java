@@ -116,6 +116,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         } else  {
             getWeatherForCurrentLocation();
         }
+//        Intent intent = new Intent(WeatherActivity.this, PedometerActivity.class);
+//        startActivity(intent);
     }
 
     @Override
