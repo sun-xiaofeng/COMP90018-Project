@@ -8,6 +8,7 @@
     tools:layout_editor_absoluteY="0dp"
     tools:layout_editor_absoluteX="0dp">
 
+
     <ImageView
         android:id="@+id/background"
         android:layout_width="wrap_content"
@@ -21,8 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_alignTop="@+id/
-                                 "
+        android:layout_below="@+id/toolbar_1"
         android:background="@drawable/shape"
         android:layout_centerHorizontal="true">
         <TextView
@@ -67,14 +67,6 @@
             android:textSize="22sp" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/weatherIconImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="96dp"
-        android:layout_marginTop="8dp"
-        app:srcCompat="@drawable/icon_na"
-        android:layout_below="@+id/toolbar_1"
-        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/editText"
