@@ -48,7 +48,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private TextView conditionTextView;
     private TextView locationTextView;
     private EditText searchEditText;
-    private Button switchButton;
     private ImageButton locationButton;
 
     private YahooWeatherService weatherService;
@@ -78,15 +77,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
                     view.setText("");
                 }
                 return false;
-            }
-        });
-
-        switchButton = (Button) findViewById(R.id.toCompassButton);
-        switchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WeatherActivity.this, CompassActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -245,7 +235,18 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.compassItem:
+                startCompassActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void startCompassActivity() {
+        Intent intent = new Intent(WeatherActivity.this, CompassActivity.class);
+        startActivity(intent);
     }
 
     private boolean isValidLocation(String location) {

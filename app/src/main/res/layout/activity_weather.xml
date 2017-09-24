@@ -68,16 +68,8 @@
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
         android:textColorHint="@android:color/black"
-        android:layout_above="@+id/toCompassButton"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/toCompassButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/switch_to_compass" />
+        android:layout_centerHorizontal="true" />
 
     <View
         android:id="@+id/separateLine"
