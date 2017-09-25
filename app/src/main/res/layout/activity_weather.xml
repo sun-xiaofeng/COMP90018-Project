@@ -8,11 +8,15 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="0dp">
 
+    <include
+        android:id="@+id/toolbar_1"
+        layout="@layout/toolbar" />
 
     <ImageView
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_1"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/background_1" />
 
@@ -151,12 +155,6 @@
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
-
-
-    <include
-        android:id="@+id/toolbar_1"
-        layout="@layout/toolbar" />
-
 
     <ImageView
         android:id="@+id/yahooLogoView"
