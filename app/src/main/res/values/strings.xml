@@ -8,6 +8,7 @@
     <string name="low">Low</string>
     <string name="degrees_text">0</string>
     <string name="weather_item">Weather</string>
+    <string name="step_counter_item">Step Counter</string>
     <string name="compass_item">Compass</string>
     <string name="about_item">About</string>
     <string name="search_item">Search</string>

@@ -91,8 +91,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         } else  {
             getWeatherForCurrentLocation();
         }
-//        Intent intent = new Intent(WeatherActivity.this, StepCounterActivity.class);
-//        startActivity(intent);
     }
 
     @Override
@@ -237,6 +235,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
                 showLoadingDialog();
                 getWeatherForCurrentLocation();
                 return true;
+            case R.id.stepCounterItem:
+                startStepCounterActivity();
+                return true;
             case R.id.compassItem:
                 startCompassActivity();
                 return true;
@@ -247,6 +248,11 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
 
     private void startCompassActivity() {
         Intent intent = new Intent(WeatherActivity.this, CompassActivity.class);
+        startActivity(intent);
+    }
+
+    private void startStepCounterActivity() {
+        Intent intent = new Intent(WeatherActivity.this, StepCounterActivity.class);
         startActivity(intent);
     }
 

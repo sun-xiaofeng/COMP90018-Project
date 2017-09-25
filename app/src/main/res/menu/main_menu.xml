@@ -18,6 +18,9 @@
         android:id="@+id/weatherItem"
         android:title="@string/weather_item" />
     <item
+        android:id="@+id/stepCounterItem"
+        android:title="@string/step_counter_item" />
+    <item
         android:id="@+id/compassItem"
         android:title="@string/compass_item" />
     <item
