@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CompassActivity" />
-        <activity android:name=".PedometerActivity"></activity>
+        <activity android:name=".PedometerActivity" />
+        <activity android:name=".service.StepCounterActivity"></activity>
     </application>
 
 </manifest>
