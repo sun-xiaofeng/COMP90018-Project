@@ -43,6 +43,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private TextView temperatureTextView;
     private TextView conditionTextView;
     private TextView locationTextView;
+    private TextView weatherDescriptionTextView;
 
     private YahooWeatherService weatherService;
     private GeocodingService geocodingService;
@@ -61,6 +62,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         temperatureTextView = (TextView) findViewById(R.id.temperatureTextView);
         conditionTextView = (TextView) findViewById(R.id.conditionTextView);
         locationTextView = (TextView) findViewById(R.id.locationTextView);
+        weatherDescriptionTextView = (TextView) findViewById(R.id.weatherDescriptionTextView);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_1);
         //toolbar.setTitle("");
@@ -104,6 +106,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         temperatureTextView.setText(item.getCondition().getTemperature() + "\u00B0" + units.getTemperature());
         conditionTextView.setText(item.getCondition().getDescription());
         locationTextView.setText(channel.getLocation().toString());
+        weatherDescriptionTextView.setText(item.toString());
 
         Condition[] forecast = item.getForecast();
         for (int i = 0; i < FORECAST_DAYS; i++) {

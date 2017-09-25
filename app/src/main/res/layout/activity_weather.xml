@@ -5,18 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="comp90018.project2.weather.WeatherActivity"
-    tools:layout_editor_absoluteY="0dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
 
-    <include
-        android:id="@+id/toolbar_1"
-        layout="@layout/toolbar"/>
 
     <ImageView
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_1"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/background_1" />
 
@@ -24,18 +20,19 @@
         android:id="@+id/up_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_1"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_below="@+id/toolbar_1"
-        android:background="@drawable/shape"
-        android:layout_centerHorizontal="true">
+        android:background="@drawable/shape">
+
         <TextView
             android:id="@+id/locationTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/conditionTextView"
-            android:layout_marginBottom="8dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
             android:text="@string/location"
             android:textAllCaps="false"
             android:textColor="@android:color/black"
@@ -71,60 +68,95 @@
             android:textSize="24sp" />
     </RelativeLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+    <ScrollView
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="96dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/up_layout"
-        android:background="@drawable/shape"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_below="@+id/up_layout">
 
-        <fragment
-            android:id="@+id/forecastDay1"
-            android:layout_marginTop="8dp"
-            android:name="comp90018.project2.weather.fragments.ForecastFragment"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_weather_condition" />
+            android:orientation="vertical">
 
-        <fragment
-            android:id="@+id/forecastDay2"
-            android:name="comp90018.project2.weather.fragments.ForecastFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_weather_condition" />
+            <LinearLayout
+                android:id="@+id/forecast_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/shape"
+                android:orientation="vertical">
 
-        <fragment
-            android:id="@+id/forecastDay3"
-            android:name="comp90018.project2.weather.fragments.ForecastFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_weather_condition" />
+                <fragment
+                    android:id="@+id/forecastDay1"
+                    android:name="comp90018.project2.weather.fragments.ForecastFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    tools:layout="@layout/fragment_weather_condition" />
 
-        <fragment
-            android:id="@+id/forecastDay4"
-            android:name="comp90018.project2.weather.fragments.ForecastFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_weather_condition" />
+                <fragment
+                    android:id="@+id/forecastDay2"
+                    android:name="comp90018.project2.weather.fragments.ForecastFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:layout="@layout/fragment_weather_condition" />
 
-        <fragment
-            android:id="@+id/forecastDay5"
-            android:name="comp90018.project2.weather.fragments.ForecastFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_weather_condition" />
-    </LinearLayout>
+                <fragment
+                    android:id="@+id/forecastDay3"
+                    android:name="comp90018.project2.weather.fragments.ForecastFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:layout="@layout/fragment_weather_condition" />
+
+                <fragment
+                    android:id="@+id/forecastDay4"
+                    android:name="comp90018.project2.weather.fragments.ForecastFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:layout="@layout/fragment_weather_condition" />
+
+                <fragment
+                    android:id="@+id/forecastDay5"
+                    android:name="comp90018.project2.weather.fragments.ForecastFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:layout="@layout/fragment_weather_condition" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/forecast_layout">
+
+
+                <TextView
+                    android:id="@+id/weatherDescriptionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:text="" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+
+    <include
+        android:id="@+id/toolbar_1"
+        layout="@layout/toolbar" />
+
 
     <ImageView
         android:id="@+id/yahooLogoView"

@@ -27,4 +27,11 @@ public class Item implements JSONPopulator {
             forecast[i].populate(forecastData.optJSONObject(i));
         }
     }
+
+    @Override
+    public String toString() {
+        return "Today is " + forecast[0].getDescription() + ". It's currently "
+                + condition.getTemperature() + "\u00B0" + ". The high will be "
+                + forecast[0].getHighTemperature() + "\u00B0" + ".";
+    }
 }

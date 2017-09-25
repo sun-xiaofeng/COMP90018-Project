@@ -43,4 +43,5 @@ public class Condition implements JSONPopulator {
         description = data.optString("text");
         day = data.optString("day");
     }
+
 }
