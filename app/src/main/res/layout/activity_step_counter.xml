@@ -9,7 +9,7 @@
     android:paddingLeft="64dp"
     android:paddingRight="64dp"
     android:paddingTop="16dp"
-    tools:context="comp90018.project2.weather.service.StepCounterActivity">
+    tools:context="comp90018.project2.weather.StepCounterActivity">
 
     <TextView
         android:layout_width="wrap_content"

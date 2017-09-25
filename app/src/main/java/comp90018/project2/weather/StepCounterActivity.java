@@ -1,4 +1,4 @@
-package comp90018.project2.weather.service;
+package comp90018.project2.weather;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comp90018.project2.weather.R;
+import comp90018.project2.weather.service.StatisticsUtil;
 
 public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -28,7 +29,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     private List<Double> list;
     private List<Double> bigList;
 
-    private Boolean running = false;
+    private boolean running = false;
 
     private long startTime, endTime;
     private double time, height, stride, speed, distance;
@@ -128,7 +129,5 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 }
