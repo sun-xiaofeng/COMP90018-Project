@@ -11,10 +11,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -105,7 +103,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.popup_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
