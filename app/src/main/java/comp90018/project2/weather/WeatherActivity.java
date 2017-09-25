@@ -87,12 +87,19 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         super.onStart();
         dialog = new ProgressDialog(this);
         showLoadingDialog();
-        String locationCache = preferences.getString("location_cache", null);
-        if (locationCache != null) {
-            weatherService.refreshWeather(locationCache);
-        } else  {
-            getWeatherForCurrentLocation();
+
+        String loc = getIntent().getStringExtra("location");
+        if (loc != null) {
+           weatherService.refreshWeather(loc);
+        } else {
+            String locationCache = preferences.getString("location_cache", null);
+            if (locationCache != null) {
+                weatherService.refreshWeather(locationCache);
+            } else  {
+                getWeatherForCurrentLocation();
+            }
         }
+
     }
 
     @Override
