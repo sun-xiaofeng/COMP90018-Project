@@ -30,6 +30,7 @@ import comp90018.project2.weather.data.Units;
 import comp90018.project2.weather.fragments.ForecastFragment;
 import comp90018.project2.weather.listener.GeocodingServiceListener;
 import comp90018.project2.weather.service.GeocodingService;
+import comp90018.project2.weather.service.StepCounterActivity;
 import comp90018.project2.weather.service.WeatherServiceCallback;
 import comp90018.project2.weather.service.YahooWeatherService;
 
@@ -91,6 +92,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         } else  {
             getWeatherForCurrentLocation();
         }
+//        Intent intent = new Intent(WeatherActivity.this, StepCounterActivity.class);
+//        startActivity(intent);
     }
 
     @Override
