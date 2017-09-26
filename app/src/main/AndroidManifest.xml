@@ -24,7 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".CompassActivity" />
-        <activity android:name=".PedometerActivity" />
         <activity android:name=".StepCounterActivity"></activity>
     </application>
 
