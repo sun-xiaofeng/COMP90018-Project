@@ -62,15 +62,15 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                     show.setText("Show result");
                     startTime = System.currentTimeMillis();
                     distance = 0;
-                    distanceText.setText("Distance: " + distance + " m");
+                    distanceText.setText(distance + " m");
                     speed = 0;
-                    speedtext.setText("Speed: " + speed + " m/s");
-                    steps.setText("#Steps: " + 0 );
+                    speedtext.setText(speed + " m/s");
+                    steps.setText("0");
                 } else {
                     running = false;
                     show.setText("Start");
-                    steps.setText("#Steps: " + getSteps(bigList));
-                    distanceText.setText("Distance: " + distance + " m");
+                    steps.setText(getSteps(bigList) + "");
+                    distanceText.setText(distance + " m");
                 }
             }
 
@@ -103,7 +103,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
             time = (endTime - startTime) / 1000.0;
             if (time >= 2.0) {
                 int stepsInTwoSeconds = getSteps(this.list);
-                steps2second.setText("#Steps in 2 second: " + stepsInTwoSeconds);
+                steps2second.setText(stepsInTwoSeconds + "");
                 height = Double.valueOf(heightText.getText().toString())/100;
                 if (stepsInTwoSeconds > 0 && stepsInTwoSeconds <= 2) {
                     stride = height / 5;
@@ -122,7 +122,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                 }
                 distance += stepsInTwoSeconds * stride;
                 speed = stepsInTwoSeconds * stride / 2.0;
-                speedtext.setText("Speed: " + speed + " m/s");
+                speedtext.setText(speed + " m/s");
                 startTime = endTime;
             }
         }

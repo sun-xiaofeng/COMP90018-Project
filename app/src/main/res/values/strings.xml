@@ -13,5 +13,9 @@
     <string name="about_item">About</string>
     <string name="search_item">Search</string>
     <string name="location_setting_item">Location Setting</string>
+    <string name="speed">Speed:</string>
+    <string name="steps2sec">Steps in 2 second:</string>
+    <string name="Steps">Steps:</string>
+    <string name="distance">Distance:</string>
 
 </resources>
