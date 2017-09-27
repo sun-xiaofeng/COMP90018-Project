@@ -38,7 +38,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
-
+import static comp90018.project2.weather.R.id.listViewToDo;
 
 
 public class LocationListActivity extends AppCompatActivity {
@@ -51,13 +51,13 @@ public class LocationListActivity extends AppCompatActivity {
     /**
      * Mobile Service Table used to access data
      */
-    private MobileServiceTable<ToDoItem> mToDoTable;
+    private MobileServiceTable<LocationItem> mLocationItemTable;
 
     //Offline Sync
     /**
      * Mobile Service Table used to access and Sync data
      */
-    //private MobileServiceSyncTable<ToDoItem> mToDoTable;
+    //private MobileServiceSyncTable<LocationItem> mLocationItemTable;
 
     /**
      * Adapter to sync the items list with the view
@@ -67,7 +67,7 @@ public class LocationListActivity extends AppCompatActivity {
     /**
      * EditText containing the "New To Do" text
      */
-    private EditText mTextNewToDo;
+    private EditText mTextNewLocation;
 
     /**
      * Progress spinner to use for table operations
@@ -108,20 +108,20 @@ public class LocationListActivity extends AppCompatActivity {
 
             // Get the Mobile Service Table instance to use
 
-            mToDoTable = mClient.getTable(ToDoItem.class);
+            mLocationItemTable = mClient.getTable(LocationItem.class);
 
             // Offline Sync
-            //mToDoTable = mClient.getSyncTable("ToDoItem", ToDoItem.class);
+            //mLocationItemTable = mClient.getSyncTable("LocationItem", LocationItem.class);
 
             //Init local storage
             initLocalStore().get();
 
-            mTextNewToDo = (EditText) findViewById(R.id.textNewToDo);
+            mTextNewLocation = (EditText) findViewById(R.id.textNewToDo);
 
             // Create an adapter to bind the items with the view
             mAdapter = new LocationItemAdapter(this, R.layout.row_list_to_do);
-            ListView listViewToDo = (ListView) findViewById(R.id.listViewToDo);
-            listViewToDo.setAdapter(mAdapter);
+            ListView listView = (ListView) findViewById(listViewToDo);
+            listView.setAdapter(mAdapter);
 
             // Load the items from the Mobile Service
             refreshItemsFromTable();
@@ -160,7 +160,7 @@ public class LocationListActivity extends AppCompatActivity {
      * @param item
      *            The item to mark
      */
-    public void removeItem(final ToDoItem item) {
+    public void removeItem(final LocationItem item) {
         if (mClient == null) {
             return;
         }
@@ -172,8 +172,7 @@ public class LocationListActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-
-                    checkItemInTable(item);
+                    removeItemInTable(item);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -200,8 +199,8 @@ public class LocationListActivity extends AppCompatActivity {
      * @param item
      *            The item to mark
      */
-    public void checkItemInTable(ToDoItem item) throws ExecutionException, InterruptedException {
-        mToDoTable.update(item).get();
+    public void removeItemInTable(LocationItem item) throws ExecutionException, InterruptedException {
+        mLocationItemTable.delete(item).get();
     }
 
     /**
@@ -216,9 +215,9 @@ public class LocationListActivity extends AppCompatActivity {
         }
 
         // Create a new item
-        final ToDoItem item = new ToDoItem();
+        final LocationItem item = new LocationItem();
 
-        item.setText(mTextNewToDo.getText().toString());
+        item.setText(mTextNewLocation.getText().toString());
         item.setComplete(false);
 
         // Insert the new item
@@ -226,7 +225,7 @@ public class LocationListActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    final ToDoItem entity = addItemInTable(item);
+                    final LocationItem entity = addItemInTable(item);
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -245,7 +244,7 @@ public class LocationListActivity extends AppCompatActivity {
 
         runAsyncTask(task);
 
-        mTextNewToDo.setText("");
+        mTextNewLocation.setText("");
     }
 
     /**
@@ -254,8 +253,8 @@ public class LocationListActivity extends AppCompatActivity {
      * @param item
      *            The item to Add
      */
-    public ToDoItem addItemInTable(ToDoItem item) throws ExecutionException, InterruptedException {
-        ToDoItem entity = mToDoTable.insert(item).get();
+    public LocationItem addItemInTable(LocationItem item) throws ExecutionException, InterruptedException {
+        LocationItem entity = mLocationItemTable.insert(item).get();
         return entity;
     }
 
@@ -272,17 +271,17 @@ public class LocationListActivity extends AppCompatActivity {
             protected Void doInBackground(Void... params) {
 
                 try {
-                    final List<ToDoItem> results = refreshItemsFromMobileServiceTable();
+                    final List<LocationItem> results = refreshItemsFromMobileServiceTable();
 
                     //Offline Sync
-                    //final List<ToDoItem> results = refreshItemsFromMobileServiceTableSyncTable();
+                    //final List<LocationItem> results = refreshItemsFromMobileServiceTableSyncTable();
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mAdapter.clear();
 
-                            for (ToDoItem item : results) {
+                            for (LocationItem item : results) {
                                 mAdapter.add(item);
                             }
                         }
@@ -302,8 +301,8 @@ public class LocationListActivity extends AppCompatActivity {
      * Refresh the list with the items in the Mobile Service Table
      */
 
-    private List<ToDoItem> refreshItemsFromMobileServiceTable() throws ExecutionException, InterruptedException {
-        return mToDoTable.where().field("complete").
+    private List<LocationItem> refreshItemsFromMobileServiceTable() throws ExecutionException, InterruptedException {
+        return mLocationItemTable.where().field("complete").
                 eq(val(false)).execute().get();
     }
 
@@ -311,12 +310,12 @@ public class LocationListActivity extends AppCompatActivity {
     /**
      * Refresh the list with the items in the Mobile Service Sync Table
      */
-    /*private List<ToDoItem> refreshItemsFromMobileServiceTableSyncTable() throws ExecutionException, InterruptedException {
+    /*private List<LocationItem> refreshItemsFromMobileServiceTableSyncTable() throws ExecutionException, InterruptedException {
         //sync the data
         sync().get();
         Query query = QueryOperations.field("complete").
                 eq(val(false));
-        return mToDoTable.read(query).get();
+        return mLocationItemTable.read(query).get();
     }*/
 
     /**
@@ -345,7 +344,7 @@ public class LocationListActivity extends AppCompatActivity {
                     tableDefinition.put("text", ColumnDataType.String);
                     tableDefinition.put("complete", ColumnDataType.Boolean);
 
-                    localStore.defineTable("ToDoItem", tableDefinition);
+                    localStore.defineTable("LocationItems", tableDefinition);
 
                     SimpleSyncHandler handler = new SimpleSyncHandler();
 
@@ -375,7 +374,7 @@ public class LocationListActivity extends AppCompatActivity {
                 try {
                     MobileServiceSyncContext syncContext = mClient.getSyncContext();
                     syncContext.push().get();
-                    mToDoTable.pull(null).get();
+                    mLocationItemTable.pull(null).get();
                 } catch (final Exception e) {
                     createAndShowDialogFromTask(e, "Error");
                 }

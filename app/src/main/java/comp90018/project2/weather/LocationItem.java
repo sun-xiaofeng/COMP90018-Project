@@ -1,7 +1,7 @@
 package comp90018.project2.weather;
 
 
-public class ToDoItem {
+public class LocationItem {
 
     /**
      * Item text
@@ -22,9 +22,9 @@ public class ToDoItem {
     private boolean mComplete;
 
     /**
-     * ToDoItem constructor
+     * LocationItem constructor
      */
-    public ToDoItem() {
+    public LocationItem() {
 
     }
 
@@ -34,14 +34,14 @@ public class ToDoItem {
     }
 
     /**
-     * Initializes a new ToDoItem
+     * Initializes a new LocationItem
      *
      * @param text
      *            The item text
      * @param id
      *            The item id
      */
-    public ToDoItem(String text, String id) {
+    public LocationItem(String text, String id) {
         this.setText(text);
         this.setId(id);
     }
@@ -96,6 +96,6 @@ public class ToDoItem {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof ToDoItem && ((ToDoItem) o).mId == mId;
+        return o instanceof LocationItem && ((LocationItem) o).mId.equals(mId);
     }
 }

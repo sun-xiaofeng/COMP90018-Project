@@ -10,14 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 /**
- * Adapter to bind a ToDoItem List to a view
+ * Adapter to bind a LocationItem List to a view
  */
-public class LocationItemAdapter extends ArrayAdapter<ToDoItem> {
+public class LocationItemAdapter extends ArrayAdapter<LocationItem> {
 
     /**
      * Adapter context
      */
-    Context mContext;
+    private Context mContext;
 
     /**
      * Adapter View layout
@@ -38,7 +38,7 @@ public class LocationItemAdapter extends ArrayAdapter<ToDoItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
 
-        final ToDoItem currentItem = getItem(position);
+        final LocationItem currentItem = getItem(position);
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -54,13 +54,6 @@ public class LocationItemAdapter extends ArrayAdapter<ToDoItem> {
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-//                if (locationButton.isChecked()) {
-//                    locationButton.setEnabled(false);
-//                    if (mContext instanceof LocationListActivity) {
-//                        LocationListActivity activity = (LocationListActivity) mContext;
-//                        activity.checkItem(currentItem);
-//                    }
-//                }
                 Intent intent = new Intent(mContext, WeatherActivity.class);
                 intent.putExtra("location", locationButton.getText());
                 mContext.startActivity(intent);
