@@ -5,15 +5,11 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp"
-    android:layout_marginEnd="32dp"
-    android:layout_marginStart="32dp"
     tools:context="comp90018.project2.weather.fragments.ForecastFragment">
 
     <TextView
         android:id="@+id/dayTextView"
-        android:layout_width="48dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/day"
@@ -24,7 +20,7 @@
 
     <TextView
         android:id="@+id/highTemperatureTextView"
-        android:layout_width="48dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_vertical"
@@ -35,7 +31,7 @@
 
     <TextView
         android:id="@+id/lowTemperatureTextView"
-        android:layout_width="48dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/low"
@@ -45,7 +41,8 @@
 
     <ImageView
         android:id="@+id/weatherIconImageView"
-        android:layout_width="64dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="36dp"
         app:srcCompat="@drawable/icon_na" />
 
