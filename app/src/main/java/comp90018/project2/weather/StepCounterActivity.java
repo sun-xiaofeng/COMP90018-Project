@@ -14,12 +14,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import comp90018.project2.weather.R;
 import comp90018.project2.weather.service.StatisticsUtil;
 
 public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    private TextView acceleration, steps2second, distanceText, speedtext, steps;
+    private TextView acceleration;
+    private TextView steps2second;
+    private TextView distanceText;
+    private TextView speedText;
+    private TextView steps;
+
     private Button show;
     private EditText heightText;
 
@@ -45,7 +49,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         steps2second = (TextView) findViewById(R.id.steps2sec);
         heightText = (EditText) findViewById(R.id.height);
         distanceText = (TextView) findViewById(R.id.distance);
-        speedtext = (TextView) findViewById(R.id.speed);
+        speedText = (TextView) findViewById(R.id.speed);
 
         // Initialize Accelerometer sensor
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -57,14 +61,14 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
             public void onClick(View v) {
                 if (!running) {
                     running = true;
-                    list = new ArrayList<Double>();
-                    bigList = new ArrayList<Double>();
+                    list = new ArrayList<>();
+                    bigList = new ArrayList<>();
                     show.setText("Show result");
                     startTime = System.currentTimeMillis();
                     distance = 0;
                     distanceText.setText(distance + " m");
                     speed = 0;
-                    speedtext.setText(speed + " m/s");
+                    speedText.setText(speed + " m/s");
                     steps.setText("0");
                 } else {
                     running = false;
@@ -122,7 +126,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                 }
                 distance += stepsInTwoSeconds * stride;
                 speed = stepsInTwoSeconds * stride / 2.0;
-                speedtext.setText(speed + " m/s");
+                speedText.setText(speed + " m/s");
                 startTime = endTime;
             }
         }

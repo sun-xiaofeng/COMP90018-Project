@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,6 +86,9 @@ public class LocationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_list);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_3);
+        setSupportActionBar(toolbar);
+
         mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
 
         // Initialize the progress bar
@@ -130,8 +134,9 @@ public class LocationListActivity extends AppCompatActivity {
             refreshItemsFromTable();
 
         } catch (MalformedURLException e) {
-            createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-        } catch (Exception e){
+            createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"),
+                    "Error");
+        } catch (Exception e) {
             createAndShowDialog(e, "Error");
         }
     }
@@ -160,8 +165,7 @@ public class LocationListActivity extends AppCompatActivity {
     /**
      * Mark an item as completed
      *
-     * @param item
-     *            The item to mark
+     * @param item The item to mark
      */
     public void removeItem(final LocationItem item) {
         if (mClient == null) {
@@ -171,7 +175,7 @@ public class LocationListActivity extends AppCompatActivity {
         // Set the item as completed and update it in the table
         item.setComplete(true);
 
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
@@ -199,8 +203,7 @@ public class LocationListActivity extends AppCompatActivity {
     /**
      * Mark an item as completed in the Mobile Service Table
      *
-     * @param item
-     *            The item to mark
+     * @param item The item to mark
      */
     public void removeItemInTable(LocationItem item) throws ExecutionException, InterruptedException {
         mLocationItemTable.delete(item).get();
@@ -209,8 +212,7 @@ public class LocationListActivity extends AppCompatActivity {
     /**
      * Add a new item
      *
-     * @param view
-     *            The view that originated the call
+     * @param view The view that originated the call
      */
     public void addItem(View view) {
         if (mClient == null) {
@@ -224,7 +226,7 @@ public class LocationListActivity extends AppCompatActivity {
         item.setComplete(false);
 
         // Insert the new item
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
@@ -233,7 +235,7 @@ public class LocationListActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(!entity.isComplete()){
+                            if (!entity.isComplete()) {
                                 mAdapter.add(entity);
                             }
                         }
@@ -253,8 +255,7 @@ public class LocationListActivity extends AppCompatActivity {
     /**
      * Add an item to the Mobile Service Table
      *
-     * @param item
-     *            The item to Add
+     * @param item The item to Add
      */
     public LocationItem addItemInTable(LocationItem item) throws ExecutionException, InterruptedException {
         LocationItem entity = mLocationItemTable.insert(item).get();
@@ -269,15 +270,12 @@ public class LocationListActivity extends AppCompatActivity {
         // Get the items that weren't marked as completed and add them in the
         // adapter
 
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
 
                 try {
                     final List<LocationItem> results = refreshItemsFromMobileServiceTable();
-
-                    //Offline Sync
-                    //final List<LocationItem> results = refreshItemsFromMobileServiceTableSyncTable();
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -289,7 +287,7 @@ public class LocationListActivity extends AppCompatActivity {
                             }
                         }
                     });
-                } catch (final Exception e){
+                } catch (final Exception e) {
                     createAndShowDialogFromTask(e, "Error");
                 }
 
@@ -309,20 +307,9 @@ public class LocationListActivity extends AppCompatActivity {
                 eq(val(false)).execute().get();
     }
 
-    //Offline Sync
-    /**
-     * Refresh the list with the items in the Mobile Service Sync Table
-     */
-    /*private List<LocationItem> refreshItemsFromMobileServiceTableSyncTable() throws ExecutionException, InterruptedException {
-        //sync the data
-        sync().get();
-        Query query = QueryOperations.field("complete").
-                eq(val(false));
-        return mLocationItemTable.read(query).get();
-    }*/
-
     /**
      * Initialize local storage
+     *
      * @return
      * @throws MobileServiceLocalStoreException
      * @throws ExecutionException
@@ -364,37 +351,11 @@ public class LocationListActivity extends AppCompatActivity {
         return runAsyncTask(task);
     }
 
-    //Offline Sync
-    /**
-     * Sync the current context and the Mobile Service Sync Table
-     * @return
-     */
-    /*
-    private AsyncTask<Void, Void, Void> sync() {
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    MobileServiceSyncContext syncContext = mClient.getSyncContext();
-                    syncContext.push().get();
-                    mLocationItemTable.pull(null).get();
-                } catch (final Exception e) {
-                    createAndShowDialogFromTask(e, "Error");
-                }
-                return null;
-            }
-        };
-        return runAsyncTask(task);
-    }
-    */
-
     /**
      * Creates a dialog and shows it
      *
-     * @param exception
-     *            The exception to show in the dialog
-     * @param title
-     *            The dialog title
+     * @param exception The exception to show in the dialog
+     * @param title     The dialog title
      */
     private void createAndShowDialogFromTask(final Exception exception, String title) {
         runOnUiThread(new Runnable() {
@@ -409,14 +370,12 @@ public class LocationListActivity extends AppCompatActivity {
     /**
      * Creates a dialog and shows it
      *
-     * @param exception
-     *            The exception to show in the dialog
-     * @param title
-     *            The dialog title
+     * @param exception The exception to show in the dialog
+     * @param title     The dialog title
      */
     private void createAndShowDialog(Exception exception, String title) {
         Throwable ex = exception;
-        if(exception.getCause() != null){
+        if (exception.getCause() != null) {
             ex = exception.getCause();
         }
         createAndShowDialog(ex.getMessage(), title);
@@ -425,10 +384,8 @@ public class LocationListActivity extends AppCompatActivity {
     /**
      * Creates a dialog and shows it
      *
-     * @param message
-     *            The dialog message
-     * @param title
-     *            The dialog title
+     * @param message The dialog message
+     * @param title   The dialog title
      */
     private void createAndShowDialog(final String message, final String title) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -440,15 +397,12 @@ public class LocationListActivity extends AppCompatActivity {
 
     /**
      * Run an ASync task on the corresponding executor
+     *
      * @param task
      * @return
      */
     private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            return task.execute();
-        }
+        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private class ProgressFilter implements ServiceFilter {

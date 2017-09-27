@@ -7,6 +7,9 @@
     android:orientation="vertical"
     tools:context="comp90018.project2.weather.LocationListActivity">
 
+    <include
+        android:id="@+id/toolbar_3"
+        layout="@layout/toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
