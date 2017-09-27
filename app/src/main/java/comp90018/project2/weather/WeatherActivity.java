@@ -1,5 +1,6 @@
 package comp90018.project2.weather;
 
+
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -245,6 +246,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
                 showLoadingDialog();
                 getWeatherForCurrentLocation();
                 return true;
+            case R.id.locationListItem:
+                startLocationListActivity();
+                return true;
             case R.id.stepCounterItem:
                 startStepCounterActivity();
                 return true;
@@ -263,6 +267,11 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
 
     private void startStepCounterActivity() {
         Intent intent = new Intent(WeatherActivity.this, StepCounterActivity.class);
+        startActivity(intent);
+    }
+
+    private void startLocationListActivity() {
+        Intent intent = new Intent(WeatherActivity.this, LocationListActivity.class);
         startActivity(intent);
     }
 
