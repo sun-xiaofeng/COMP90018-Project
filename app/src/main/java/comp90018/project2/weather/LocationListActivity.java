@@ -37,6 +37,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import comp90018.project2.weather.location_list.LocationItem;
+import comp90018.project2.weather.location_list.LocationItemAdapter;
+
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 import static comp90018.project2.weather.R.id.listViewToDo;
 

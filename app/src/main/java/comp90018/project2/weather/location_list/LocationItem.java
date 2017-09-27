@@ -1,4 +1,4 @@
-package comp90018.project2.weather;
+package comp90018.project2.weather.location_list;
 
 
 public class LocationItem {

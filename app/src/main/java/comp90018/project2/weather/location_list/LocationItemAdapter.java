@@ -1,4 +1,4 @@
-package comp90018.project2.weather;
+package comp90018.project2.weather.location_list;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+
+import comp90018.project2.weather.LocationListActivity;
+import comp90018.project2.weather.R;
+import comp90018.project2.weather.WeatherActivity;
 
 /**
  * Adapter to bind a LocationItem List to a view
@@ -22,7 +26,7 @@ public class LocationItemAdapter extends ArrayAdapter<LocationItem> {
     /**
      * Adapter View layout
      */
-    int mLayoutResourceId;
+    private int mLayoutResourceId;
 
     public LocationItemAdapter(Context context, int layoutResourceId) {
         super(context, layoutResourceId);
@@ -48,7 +52,6 @@ public class LocationItemAdapter extends ArrayAdapter<LocationItem> {
         row.setTag(currentItem);
         final Button locationButton = (Button) row.findViewById(R.id.locationItem);
         locationButton.setText(currentItem.getText());
-//        locationButton.setChecked(false);
         locationButton.setEnabled(true);
 
         locationButton.setOnClickListener(new View.OnClickListener() {
