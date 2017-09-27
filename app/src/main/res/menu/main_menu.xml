@@ -4,22 +4,25 @@
 
     <item
         android:id="@+id/searchItem"
-        app:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="@string/search_item"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
     <item
         android:id="@+id/locationItem"
         android:icon="@android:drawable/ic_menu_mylocation"
         android:visible="false"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/weatherItem"
         android:title="@string/weather_item" />
     <item
         android:id="@+id/locationListItem"
-        android:title="Locations" />
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="@string/location_setting_item"
+        android:visible="false"
+        app:showAsAction="always" />
     <item
         android:id="@+id/stepCounterItem"
         android:title="@string/step_counter_item" />

@@ -12,5 +12,6 @@
     <string name="compass_item">Compass</string>
     <string name="about_item">About</string>
     <string name="search_item">Search</string>
+    <string name="location_setting_item">Location Setting</string>
 
 </resources>

@@ -104,6 +104,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.findItem(R.id.compassItem).setVisible(false);
         return true;
     }
 

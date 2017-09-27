@@ -215,8 +215,10 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.findItem(R.id.weatherItem).setVisible(false);
         menu.findItem(R.id.locationItem).setVisible(true);
         menu.findItem(R.id.searchItem).setVisible(true);
+        menu.findItem(R.id.locationListItem).setVisible(true);
 
         final MenuItem searchMenuItem = menu.findItem(R.id.searchItem);
         final SearchView searchView = (SearchView) searchMenuItem.getActionView();
