@@ -1,32 +1,38 @@
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle"   >
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <solid
-        android:color="#888888" >
-    </solid>
+    <item android:bottom="1dp"
+        android:left="-2dp"
+        android:right="-2dp"
+        android:top="-2dp">
+        <shape android:shape="rectangle" >
+            <stroke
+                android:width="0.5dp"
+                android:color="@android:color/black" />
+            <solid
+                android:color="#888888" >
+            </solid>
 
-    <!--<stroke-->
-    <!--android:width="2dp"-->
-    <!--android:color="#C4CDE0" >-->
-    <!--</stroke>-->
 
-    <padding
-        android:left="5dp"
-        android:top="5dp"
-        android:right="5dp"
-        android:bottom="5dp"    >
-    </padding>
+            <padding
+                android:left="5dp"
+                android:top="5dp"
+                android:right="5dp"
+                android:bottom="5dp"    >
+            </padding>
 
-    <corners
-        android:radius="11dp"   >
-    </corners>
+            <!--<corners-->
+                <!--android:radius="11dp"   >-->
+            <!--</corners>-->
 
-    <gradient
-        android:angle="315"
-        android:startColor="#00E0EAFC"
-        android:endColor="#80CFDEF3"
-        android:type="linear">
-    </gradient>
+            <gradient
+                android:angle="315"
+                android:startColor="#20E0EAFC"
+                android:endColor="#CFDEF3"
+                android:type="linear">
+            </gradient>
 
-</shape>
+        </shape>
+    </item>
+
+</layer-list>
