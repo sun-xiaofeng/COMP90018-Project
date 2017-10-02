@@ -37,7 +37,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         degreesTextView = (TextView) findViewById(R.id.degrees);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_2);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.compass_toolbar);
         setSupportActionBar(toolbar);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

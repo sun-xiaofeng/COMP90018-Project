@@ -7,7 +7,7 @@
     tools:context=".CompassActivity">
 
     <include
-        android:id="@+id/toolbar_2"
+        android:id="@+id/compass_toolbar"
         layout="@layout/toolbar"/>
 
     <ImageView
@@ -15,13 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:layout_below="@+id/toolbar_2"
+        android:layout_below="@+id/compass_toolbar"
         app:srcCompat="@drawable/background_2" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_2">
+        android:layout_below="@+id/compass_toolbar">
 
         <ImageView
             android:id="@+id/arrow"

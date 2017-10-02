@@ -2,7 +2,6 @@ package comp90018.project2.weather;
 
 import android.app.AlertDialog;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -86,7 +86,7 @@ public class LocationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_3);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.location_list_toolbar);
         setSupportActionBar(toolbar);
 
         mProgressBar = (ProgressBar) findViewById(R.id.loadingProgressBar);
@@ -219,37 +219,44 @@ public class LocationListActivity extends AppCompatActivity {
             return;
         }
 
-        // Create a new item
-        final LocationItem item = new LocationItem();
+        String regex = "[a-zA-Z]+(, ?[a-zA-Z]+)?";
+        String text = mTextNewLocation.getText().toString();
+        if (!text.matches(regex)) {
+            Toast.makeText(this, "Invalid location!", Toast.LENGTH_SHORT).show();
+            mTextNewLocation.setText("");
+        } else {
+            // Create a new item
+            final LocationItem item = new LocationItem();
 
-        item.setText(mTextNewLocation.getText().toString());
-        item.setComplete(false);
+            item.setText(mTextNewLocation.getText().toString());
+            item.setComplete(false);
 
-        // Insert the new item
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    final LocationItem entity = addItemInTable(item);
+            // Insert the new item
+            AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        final LocationItem entity = addItemInTable(item);
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!entity.isComplete()) {
-                                mAdapter.add(entity);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!entity.isComplete()) {
+                                    mAdapter.add(entity);
+                                }
                             }
-                        }
-                    });
-                } catch (final Exception e) {
-                    createAndShowDialogFromTask(e, "Error");
+                        });
+                    } catch (final Exception e) {
+                        createAndShowDialogFromTask(e, "Error");
+                    }
+                    return null;
                 }
-                return null;
-            }
-        };
+            };
 
-        runAsyncTask(task);
+            runAsyncTask(task);
 
-        mTextNewLocation.setText("");
+            mTextNewLocation.setText("");
+        }
     }
 
     /**

@@ -9,14 +9,14 @@
     tools:layout_editor_absoluteY="0dp">
 
     <include
-        android:id="@+id/toolbar_1"
+        android:id="@+id/weather_toolbar"
         layout="@layout/toolbar" />
 
     <ImageView
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_1"
+        android:layout_below="@id/weather_toolbar"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/background_1" />
 
@@ -24,7 +24,7 @@
         android:id="@+id/up_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_1"
+        android:layout_below="@+id/weather_toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

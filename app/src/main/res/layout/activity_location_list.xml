@@ -8,7 +8,7 @@
     tools:context="comp90018.project2.weather.LocationListActivity">
 
     <include
-        android:id="@+id/toolbar_3"
+        android:id="@+id/location_list_toolbar"
         layout="@layout/toolbar"/>
 
     <LinearLayout

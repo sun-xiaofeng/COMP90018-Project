@@ -48,7 +48,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_counter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_4);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.step_counter_toolbar);
         setSupportActionBar(toolbar);
 
         acceleration = (TextView) findViewById(R.id.Acceleration);

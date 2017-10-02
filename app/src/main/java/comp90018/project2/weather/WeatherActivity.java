@@ -34,10 +34,9 @@ import comp90018.project2.weather.service.GeocodingService;
 import comp90018.project2.weather.service.WeatherServiceCallback;
 import comp90018.project2.weather.service.YahooWeatherService;
 
-import static android.view.View.Z;
 
-
-public class WeatherActivity extends AppCompatActivity implements WeatherServiceCallback, LocationListener, GeocodingServiceListener {
+public class WeatherActivity extends AppCompatActivity implements WeatherServiceCallback,
+        LocationListener, GeocodingServiceListener {
 
     public static final int LOCATION_REQUEST_CODE = 1;
     public static final int FORECAST_DAYS = 5;
@@ -67,7 +66,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         locationTextView = (TextView) findViewById(R.id.locationTextView);
         weatherDescriptionTextView = (TextView) findViewById(R.id.weatherDescriptionTextView);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_1);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.weather_toolbar);
         //toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
@@ -151,7 +150,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     }
 
     private void getWeatherBySearch(String location) {
-        String regex = "[a-zA-Z]+(, [a-zA-Z]+)?";
+        String regex = "[a-zA-Z]+(, ?[a-zA-Z]+)?";
         if (!location.isEmpty()) {
             if (!location.matches(regex)) {
                 Toast.makeText(this, "Invalid location!", Toast.LENGTH_SHORT).show();
