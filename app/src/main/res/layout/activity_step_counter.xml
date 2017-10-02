@@ -57,8 +57,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/input_layout"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,12 +79,12 @@
                     android:id="@+id/title_steps2sec"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
-                    android:text="@string/steps2sec"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginStart="10dp"
-                    android:textSize="30sp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/steps2sec"
+                    android:textSize="26sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -107,13 +108,13 @@
                     android:id="@+id/title_steps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
-                    android:text="@string/Steps"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/Steps"
                     android:textColor="#191919"
-                    android:textSize="30sp"
+                    android:textSize="26sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -138,30 +139,30 @@
                 android:layout_height="0dp"
                 android:layout_margin="10dp"
                 android:layout_weight="0.6"
-                android:background="#D9853B"
+                android:background="#4c9d90"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/title_speed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
-                    android:text="@string/speed"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/speed"
                     android:textColor="#191919"
-                    android:textSize="30sp"
+                    android:textSize="26sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/speed"
-                    android:layout_below="@id/title_speed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_below="@id/title_speed"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:textSize="30sp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -171,31 +172,31 @@
                 android:layout_height="0dp"
                 android:layout_margin="10dp"
                 android:layout_weight="0.4"
-                android:background="#ECECEA"
+                android:background="#6ebeab"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/title_distance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
-                    android:text="@string/distance"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/distance"
                     android:textColor="#191919"
-                    android:textSize="30sp"
+                    android:textSize="26sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/distance"
-                    android:layout_below="@id/title_distance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/title_distance"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:textSize="30sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </RelativeLayout>
 
         </LinearLayout>
