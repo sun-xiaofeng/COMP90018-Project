@@ -8,12 +8,17 @@
     android:background="#90191919"
     tools:context="comp90018.project2.weather.StepCounterActivity">
 
+
+    <include
+        android:id="@+id/toolbar_4"
+        layout="@layout/toolbar"/>
+
     <TextView
         android:id="@+id/Acceleration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/toolbar_4"
         android:layout_marginTop="22dp"
         android:text="Acceleration"
         android:textColor="@android:color/black"
@@ -25,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_below="@+id/toolbar_4"
         android:layout_margin="20dp"
         android:background="#FFFFFF"
         android:orientation="horizontal">
@@ -74,11 +80,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical|start"
                 android:text="@string/distance"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -87,10 +93,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_distance"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="#191919"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -110,7 +116,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical|start"
                 android:text="@string/speed"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -118,12 +124,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_speed"
-                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="#191919"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -143,7 +148,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical|start"
                 android:text="@string/steps2sec"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -152,10 +157,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_steps2sec"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="#191919"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -175,7 +180,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical|start"
                 android:text="@string/Steps"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -184,10 +189,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_steps"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="#191919"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 

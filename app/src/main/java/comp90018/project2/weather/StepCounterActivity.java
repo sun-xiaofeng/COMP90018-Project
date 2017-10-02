@@ -1,15 +1,20 @@
 package comp90018.project2.weather;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +48,9 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_counter);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_4);
+        setSupportActionBar(toolbar);
+
         acceleration = (TextView) findViewById(R.id.Acceleration);
         steps = (TextView) findViewById(R.id.Steps);
         show = (Button) findViewById(R.id.show);
@@ -57,19 +65,23 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         show.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View v) {
                 if (!running) {
-                    running = true;
-                    list = new ArrayList<>();
-                    bigList = new ArrayList<>();
-                    show.setText("Show result");
-                    startTime = System.currentTimeMillis();
-                    distance = 0;
-                    distanceText.setText(distance + " m");
-                    speed = 0;
-                    speedText.setText(speed + " m/s");
-                    steps.setText("0");
+                    try {
+                        height = Double.parseDouble(heightText.getText().toString()) / 100;
+                        running = true;
+                        list = new ArrayList<>();
+                        bigList = new ArrayList<>();
+                        show.setText("Show result");
+                        startTime = System.currentTimeMillis();
+                        distance = 0;
+                        distanceText.setText(distance + " m");
+                        speed = 0;
+                        speedText.setText(speed + " m/s");
+                        steps.setText("0");
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(StepCounterActivity.this, "Invalid height!", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     running = false;
                     show.setText("Start");
@@ -79,7 +91,6 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
             }
 
         });
-
     }
 
     private int getSteps(List<Double> list) {
@@ -108,7 +119,6 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
             if (time >= 2.0) {
                 int stepsInTwoSeconds = getSteps(this.list);
                 steps2second.setText(stepsInTwoSeconds + "");
-                height = Double.valueOf(heightText.getText().toString())/100;
                 if (stepsInTwoSeconds > 0 && stepsInTwoSeconds <= 2) {
                     stride = height / 5;
                 } else if (stepsInTwoSeconds > 2 && stepsInTwoSeconds <= 3) {
@@ -134,4 +144,35 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.findItem(R.id.stepCounterItem).setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.weatherItem:
+                startWeatherActivity();
+                return true;
+            case R.id.compassItem:
+                startCompassActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void startCompassActivity() {
+        Intent intent = new Intent(StepCounterActivity.this, CompassActivity.class);
+        startActivity(intent);
+    }
+
+    private void startWeatherActivity() {
+        Intent intent = new Intent(StepCounterActivity.this, WeatherActivity.class);
+        startActivity(intent);
+    }
 }
