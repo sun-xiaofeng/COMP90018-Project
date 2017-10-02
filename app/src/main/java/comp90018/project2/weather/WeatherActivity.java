@@ -34,6 +34,8 @@ import comp90018.project2.weather.service.GeocodingService;
 import comp90018.project2.weather.service.WeatherServiceCallback;
 import comp90018.project2.weather.service.YahooWeatherService;
 
+import static android.view.View.Z;
+
 
 public class WeatherActivity extends AppCompatActivity implements WeatherServiceCallback, LocationListener, GeocodingServiceListener {
 
@@ -149,8 +151,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     }
 
     private void getWeatherBySearch(String location) {
+        String regex = "[a-zA-Z]+(, [a-zA-Z]+)?";
         if (!location.isEmpty()) {
-            if (!isValidLocation(location)) {
+            if (!location.matches(regex)) {
                 Toast.makeText(this, "Invalid location!", Toast.LENGTH_SHORT).show();
             } else {
                 showLoadingDialog();
@@ -275,9 +278,5 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private void startLocationListActivity() {
         Intent intent = new Intent(WeatherActivity.this, LocationListActivity.class);
         startActivity(intent);
-    }
-
-    private boolean isValidLocation(String location) {
-        return location.matches("[a-zA-Z]+(, [a-zA-Z]+)?");
     }
 }
