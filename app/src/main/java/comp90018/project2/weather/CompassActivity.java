@@ -114,6 +114,9 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
             case R.id.weatherItem:
                 startWeatherActivity();
                 return true;
+            case R.id.stepCounterItem:
+                startStepCounterActivity();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -121,6 +124,11 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
     private void startWeatherActivity() {
         Intent intent = new Intent(CompassActivity.this, WeatherActivity.class);
+        startActivity(intent);
+    }
+
+    private void startStepCounterActivity() {
+        Intent intent = new Intent(CompassActivity.this, StepCounterActivity.class);
         startActivity(intent);
     }
 }

@@ -35,11 +35,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
             android:ems="10"
-            android:hint="enter your height"
+            android:hint="Enter your height"
             android:inputType="number"
             android:textColor="#191919"
             android:textColorHint="#80191919"
-            android:textSize="30sp" />
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/show"
@@ -58,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/input_layout"
         android:layout_alignParentStart="true">
 
         <LinearLayout
