@@ -29,8 +29,5 @@
     <item
         android:id="@+id/compassItem"
         android:title="@string/compass_item" />
-    <item
-        android:id="@+id/aboutItem"
-        android:title="@string/about_item" />
 
 </menu>
