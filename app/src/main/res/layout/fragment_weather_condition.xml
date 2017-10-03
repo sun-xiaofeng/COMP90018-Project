@@ -15,8 +15,12 @@
         android:text="@string/day"
         android:textAllCaps="true"
         android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/light_font"
+        android:shadowColor="@color/text_shadow"
+        android:shadowDx="4"
+        android:shadowDy="4"
+        android:shadowRadius="2" />
 
     <TextView
         android:id="@+id/highTemperatureTextView"
@@ -26,7 +30,12 @@
         android:gravity="center_vertical"
         android:text="@string/high"
         android:textAllCaps="false"
-        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:textColor="@color/light_font"
+        android:shadowColor="@color/text_shadow"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
         android:textSize="16sp" />
 
     <TextView
@@ -36,7 +45,12 @@
         android:layout_weight="1"
         android:text="@string/low"
         android:textAllCaps="false"
-        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:textColor="@color/light_font"
+        android:shadowColor="@color/text_shadow"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
         android:textSize="16sp" />
 
     <ImageView
@@ -44,6 +58,12 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="36dp"
+        android:textStyle="bold"
+        android:textColor="@color/light_font"
+        android:shadowColor="@color/text_shadow"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
         app:srcCompat="@drawable/icon_na" />
 
 </LinearLayout>
