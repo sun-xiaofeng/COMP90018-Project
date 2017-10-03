@@ -136,8 +136,10 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         Item item = channel.getItem();
         Optional<String> warningMessageOptional = WeatherWarnings.getWarningMessage(item);
         if (warningMessageOptional.isPresent()) {
+            final String textColor = "#8B0000";
             @SuppressWarnings("deprecation")
-            CharSequence warningMessage = Html.fromHtml("<b>Warning: </b>" + warningMessageOptional.get());
+            CharSequence warningMessage = Html.fromHtml("<font color=" + textColor + ">Warning: </font>"
+                    + warningMessageOptional.get());
             weatherWarningTextView.setText(warningMessage);
             weatherWarningTextView.setVisibility(View.VISIBLE);
             weatherWarningLayout.setVisibility(View.VISIBLE);
