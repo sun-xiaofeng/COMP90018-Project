@@ -16,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.Layout;
 import android.view.View;
 import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -78,7 +77,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         weatherWarningLayout = findViewById(R.id.weatherWarningLayout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.weather_toolbar);
-        //toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
 
