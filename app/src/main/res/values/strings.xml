@@ -13,6 +13,9 @@
     <string name="about_item">About</string>
     <string name="search_item">Search</string>
     <string name="location_setting_item">Location Setting</string>
+    <string name="start_button_text">Start</string>
+    <string name="result_button_text">Show result</string>
+    <string name="height_hint">Enter your height (cm)</string>
     <string name="speed">Speed:</string>
     <string name="steps2sec">Steps in 2 second:</string>
     <string name="Steps">Steps:</string>

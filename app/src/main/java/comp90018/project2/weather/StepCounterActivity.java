@@ -18,16 +18,17 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import comp90018.project2.weather.service.StatisticsUtil;
 
 public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    private TextView acceleration;
-    private TextView steps2second;
-    private TextView distanceText;
-    private TextView speedText;
-    private TextView steps;
+    //private TextView acceleration;
+    private TextView stepsInTwoSecondTextView;
+    private TextView distanceTextView;
+    private TextView speedTextView;
+    private TextView stepsTextView;
 
     private Button show;
     private EditText heightText;
@@ -51,13 +52,13 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         Toolbar toolbar = (Toolbar) findViewById(R.id.step_counter_toolbar);
         setSupportActionBar(toolbar);
 
-        acceleration = (TextView) findViewById(R.id.Acceleration);
-        steps = (TextView) findViewById(R.id.Steps);
+        //acceleration = (TextView) findViewById(R.id.Acceleration);
+        stepsTextView = (TextView) findViewById(R.id.Steps);
         show = (Button) findViewById(R.id.show);
-        steps2second = (TextView) findViewById(R.id.steps2sec);
+        stepsInTwoSecondTextView = (TextView) findViewById(R.id.steps2sec);
         heightText = (EditText) findViewById(R.id.height);
-        distanceText = (TextView) findViewById(R.id.distance);
-        speedText = (TextView) findViewById(R.id.speed);
+        distanceTextView = (TextView) findViewById(R.id.distance);
+        speedTextView = (TextView) findViewById(R.id.speed);
 
         // Initialize Accelerometer sensor
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -72,21 +73,23 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                         running = true;
                         list = new ArrayList<>();
                         bigList = new ArrayList<>();
-                        show.setText("Show result");
+                        show.setText(R.string.result_button_text);
                         startTime = System.currentTimeMillis();
                         distance = 0;
-                        distanceText.setText(distance + " m");
+                        distanceTextView.setText("0");
                         speed = 0;
-                        speedText.setText(speed + " m/s");
-                        steps.setText("0");
+                        speedTextView.setText("0");
+                        stepsTextView.setText("0");
                     } catch (NumberFormatException e) {
                         Toast.makeText(StepCounterActivity.this, "Invalid height!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     running = false;
-                    show.setText("Start");
-                    steps.setText(getSteps(bigList) + "");
-                    distanceText.setText(distance + " m");
+                    show.setText(R.string.start_button_text);
+                    String stepsText = Integer.toString(getSteps(bigList));
+                    stepsTextView.setText(stepsText);
+                    String distanceText = String.format(Locale.getDefault(), "%.1f m", distance);
+                    distanceTextView.setText(distanceText);
                 }
             }
 
@@ -107,18 +110,19 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         if (running) {
             double x = event.values[0];
             double y = event.values[1];
-            double z = event.values[2];
-            acceleration.setText("X: " + x + "\nY: " + y + "\nZ: " + z);
+            // double z = event.values[2];
+            // acceleration.setText("X: " + x + "\nY: " + y + "\nZ: " + z);
             // calculate the magnitude mag^2 = x^2 + y^2 + z^2 and add mag to the list
-            // we deal with mag due to count steps in all directions as magnitude neglects directions.
+            // we deal with mag due to count stepsTextView in all directions as magnitude neglects directions.
             double mag = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(y, 2));
             list.add(mag);
             bigList.add(mag);
             endTime = System.currentTimeMillis();
             time = (endTime - startTime) / 1000.0;
             if (time >= 2.0) {
-                int stepsInTwoSeconds = getSteps(this.list);
-                steps2second.setText(stepsInTwoSeconds + "");
+                int stepsInTwoSeconds = getSteps(list);
+                String stepsInTwoSecondsText = Integer.toString(stepsInTwoSeconds);
+                stepsInTwoSecondTextView.setText(stepsInTwoSecondsText);
                 if (stepsInTwoSeconds > 0 && stepsInTwoSeconds <= 2) {
                     stride = height / 5;
                 } else if (stepsInTwoSeconds > 2 && stepsInTwoSeconds <= 3) {
@@ -136,14 +140,16 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                 }
                 distance += stepsInTwoSeconds * stride;
                 speed = stepsInTwoSeconds * stride / 2.0;
-                speedText.setText(speed + " m/s");
+                String speedText = String.format(Locale.getDefault(), "%.3f m/s", speed);
+                speedTextView.setText(speedText);
                 startTime = endTime;
             }
         }
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
