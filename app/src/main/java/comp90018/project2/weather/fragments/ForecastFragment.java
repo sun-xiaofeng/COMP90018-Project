@@ -47,8 +47,10 @@ public class ForecastFragment extends Fragment {
                 null, getActivity().getPackageName());
         weatherIconImageView.setImageResource(resourceId);
         dayLabelTextView.setText(forecast.getDay());
-        highTemperatureTextView.setText(forecast.getHighTemperature() + "\u00B0" + unit.getTemperature());
-        lowTemperatureTextView.setText(forecast.getLowTemperature() + "\u00B0" + unit.getTemperature());
+        String highTemperatureText = forecast.getHighTemperature() + "\u00B0";
+        String lowTemperatureText = forecast.getLowTemperature() + "\u00B0";
+        highTemperatureTextView.setText(highTemperatureText);
+        lowTemperatureTextView.setText(lowTemperatureText);
     }
 
 }

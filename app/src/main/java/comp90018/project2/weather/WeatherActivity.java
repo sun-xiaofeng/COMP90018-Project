@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.common.base.Optional;
 
+import comp90018.project2.weather.data.BackgroundImages;
 import comp90018.project2.weather.data.Channel;
 import comp90018.project2.weather.data.Condition;
 import comp90018.project2.weather.data.Item;
@@ -46,6 +47,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     public static final int LOCATION_REQUEST_CODE = 1;
     public static final int FORECAST_DAYS = 5;
 
+    private ImageView backgroundImageView;
     private ImageView weatherIconImageView;
     private TextView temperatureTextView;
     private TextView conditionTextView;
@@ -68,6 +70,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
+        backgroundImageView = (ImageView) findViewById(R.id.background);
         weatherIconImageView = (ImageView) findViewById(R.id.weatherIconImageView);
         temperatureTextView = (TextView) findViewById(R.id.temperatureTextView);
         conditionTextView = (TextView) findViewById(R.id.conditionTextView);
@@ -118,15 +121,16 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         showCurrentWeather(channel);
         showWeatherWarning(channel);
         showForecast(channel);
+        setBackgroundImage(channel);
     }
 
     private void showCurrentWeather(Channel channel) {
-        Units units = channel.getUnits();
         Item item = channel.getItem();
         int resourceId = getResources().getIdentifier("drawable/icon_" + item.getCondition().getCode(),
                 null, getPackageName());
         weatherIconImageView.setImageResource(resourceId);
-        temperatureTextView.setText(item.getCondition().getTemperature() + "\u00B0" + units.getTemperature());
+        String temperatureText = item.getCondition().getTemperature() + "\u00B0";
+        temperatureTextView.setText(temperatureText);
         conditionTextView.setText(item.getCondition().getDescription());
         locationTextView.setText(channel.getLocation().toString());
         weatherDescriptionTextView.setText(item.toString());
@@ -155,6 +159,11 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         for (int i = 0; i < FORECAST_DAYS; i++) {
             fragments[i].loadWeatherForecast(forecast[i], units);
         }
+    }
+
+    private void setBackgroundImage(Channel channel) {
+        int resId = BackgroundImages.getBackgroundImage(channel.getItem());
+        backgroundImageView.setImageResource(resId);
     }
 
     @Override
