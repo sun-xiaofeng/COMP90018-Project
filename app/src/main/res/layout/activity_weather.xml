@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/weather_toolbar"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:background="@drawable/shape">
 
         <TextView
@@ -88,8 +88,8 @@
                 android:id="@+id/forecast_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
                 android:background="@drawable/shape"
                 android:orientation="vertical">
 
@@ -98,9 +98,9 @@
                     android:name="comp90018.project2.weather.fragments.ForecastFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_weight="1"
                     tools:layout="@layout/fragment_weather_condition" />
 
@@ -109,9 +109,9 @@
                     android:name="comp90018.project2.weather.fragments.ForecastFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
                     tools:layout="@layout/fragment_weather_condition" />
 
                 <fragment
@@ -119,9 +119,9 @@
                     android:name="comp90018.project2.weather.fragments.ForecastFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
                     tools:layout="@layout/fragment_weather_condition" />
 
                 <fragment
@@ -129,9 +129,9 @@
                     android:name="comp90018.project2.weather.fragments.ForecastFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
                     tools:layout="@layout/fragment_weather_condition" />
 
                 <fragment
@@ -139,18 +139,19 @@
                     android:name="comp90018.project2.weather.fragments.ForecastFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
                     tools:layout="@layout/fragment_weather_condition" />
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/weatherDescriptionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/forecast_layout"
-                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape">
 
@@ -159,12 +160,37 @@
                     android:id="@+id/weatherDescriptionTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text=""
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
+
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/weatherWarningLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/weatherDescriptionLayout"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:background="@drawable/shape">
+
+                <TextView
+                    android:id="@+id/weatherWarningTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text=""
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
         </RelativeLayout>
     </ScrollView>
 

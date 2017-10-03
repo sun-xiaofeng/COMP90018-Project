@@ -219,7 +219,7 @@ public class LocationListActivity extends AppCompatActivity {
             return;
         }
 
-        String regex = "[a-zA-Z]+(, ?[a-zA-Z]+)?";
+        String regex = "[a-zA-Z ]+(, ?[a-zA-Z ]+)?";
         String text = mTextNewLocation.getText().toString();
         if (!text.matches(regex)) {
             Toast.makeText(this, "Invalid location!", Toast.LENGTH_SHORT).show();

@@ -15,6 +15,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Layout;
+import android.view.View;
 import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -23,9 +26,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.base.Optional;
+
 import comp90018.project2.weather.data.Channel;
 import comp90018.project2.weather.data.Condition;
 import comp90018.project2.weather.data.Item;
+import comp90018.project2.weather.data.WeatherWarnings;
 import comp90018.project2.weather.service.GeocodingResult;
 import comp90018.project2.weather.data.Units;
 import comp90018.project2.weather.fragments.ForecastFragment;
@@ -46,6 +52,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private TextView conditionTextView;
     private TextView locationTextView;
     private TextView weatherDescriptionTextView;
+    private TextView weatherWarningTextView;
+
+    private View weatherWarningLayout;
 
     private YahooWeatherService weatherService;
     private GeocodingService geocodingService;
@@ -65,6 +74,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         conditionTextView = (TextView) findViewById(R.id.conditionTextView);
         locationTextView = (TextView) findViewById(R.id.locationTextView);
         weatherDescriptionTextView = (TextView) findViewById(R.id.weatherDescriptionTextView);
+        weatherWarningTextView = (TextView) findViewById(R.id.weatherWarningTextView);
+        weatherWarningLayout = findViewById(R.id.weatherWarningLayout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.weather_toolbar);
         //toolbar.setTitle("");
@@ -101,14 +112,19 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
                 getWeatherForCurrentLocation();
             }
         }
-
     }
 
     @Override
-    public void serviceSuccess(Channel channel) {
+    public void weatherServiceSuccess(Channel channel) {
         dialog.hide();
-        Item item = channel.getItem();
+        showCurrentWeather(channel);
+        showWeatherWarning(channel);
+        showForecast(channel);
+    }
+
+    private void showCurrentWeather(Channel channel) {
         Units units = channel.getUnits();
+        Item item = channel.getItem();
         int resourceId = getResources().getIdentifier("drawable/icon_" + item.getCondition().getCode(),
                 null, getPackageName());
         weatherIconImageView.setImageResource(resourceId);
@@ -116,15 +132,33 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         conditionTextView.setText(item.getCondition().getDescription());
         locationTextView.setText(channel.getLocation().toString());
         weatherDescriptionTextView.setText(item.toString());
+    }
 
-        Condition[] forecast = item.getForecast();
+    private void showWeatherWarning(Channel channel) {
+        Item item = channel.getItem();
+        Optional<String> warningMessageOptional = WeatherWarnings.getWarningMessage(item);
+        if (warningMessageOptional.isPresent()) {
+            @SuppressWarnings("deprecation")
+            CharSequence warningMessage = Html.fromHtml("<b>Warning: </b>" + warningMessageOptional.get());
+            weatherWarningTextView.setText(warningMessage);
+            weatherWarningTextView.setVisibility(View.VISIBLE);
+            weatherWarningLayout.setVisibility(View.VISIBLE);
+        } else {
+            weatherWarningTextView.setVisibility(View.GONE);
+            weatherWarningLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void showForecast(Channel channel) {
+        Condition[] forecast = channel.getItem().getForecast();
+        Units units = channel.getUnits();
         for (int i = 0; i < FORECAST_DAYS; i++) {
             fragments[i].loadWeatherForecast(forecast[i], units);
         }
     }
 
     @Override
-    public void serviceFailure(Exception ex) {
+    public void weatherServiceFailure(Exception ex) {
         dialog.hide();
         Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
     }
@@ -150,7 +184,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     }
 
     private void getWeatherBySearch(String location) {
-        String regex = "[a-zA-Z]+(, ?[a-zA-Z]+)?";
+        String regex = "[a-zA-Z ]+(, ?[a-zA-Z ]+)?";
         if (!location.isEmpty()) {
             if (!location.matches(regex)) {
                 Toast.makeText(this, "Invalid location!", Toast.LENGTH_SHORT).show();

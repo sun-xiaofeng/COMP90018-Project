@@ -24,7 +24,6 @@ import comp90018.project2.weather.service.StatisticsUtil;
 
 public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    //private TextView acceleration;
     private TextView stepsInTwoSecondTextView;
     private TextView distanceTextView;
     private TextView speedTextView;
@@ -52,7 +51,6 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         Toolbar toolbar = (Toolbar) findViewById(R.id.step_counter_toolbar);
         setSupportActionBar(toolbar);
 
-        //acceleration = (TextView) findViewById(R.id.Acceleration);
         stepsTextView = (TextView) findViewById(R.id.Steps);
         show = (Button) findViewById(R.id.show);
         stepsInTwoSecondTextView = (TextView) findViewById(R.id.steps2sec);
@@ -148,8 +146,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

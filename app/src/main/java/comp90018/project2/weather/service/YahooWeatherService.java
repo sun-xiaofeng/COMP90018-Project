@@ -54,7 +54,7 @@ public class YahooWeatherService {
             @Override
             protected void onPostExecute(String response) {
                 if (response == null || exception != null) {
-                    callback.serviceFailure(exception);
+                    callback.weatherServiceFailure(exception);
                     return;
                 }
                 try {
@@ -62,14 +62,14 @@ public class YahooWeatherService {
                     JSONObject queryResults = data.optJSONObject("query");
                     int count = queryResults.optInt("count");
                     if (count == 0) {
-                        callback.serviceFailure(new LocationWeatherException("No weather information for " + location));
+                        callback.weatherServiceFailure(new LocationWeatherException("No weather information for " + location));
                     } else {
                         Channel channel = new Channel();
                         channel.populate(queryResults.optJSONObject("results").optJSONObject("channel"));
-                        callback.serviceSuccess(channel);
+                        callback.weatherServiceSuccess(channel);
                     }
                 } catch (JSONException e) {
-                    callback.serviceFailure(e);
+                    callback.weatherServiceFailure(e);
                 }
 
             }
