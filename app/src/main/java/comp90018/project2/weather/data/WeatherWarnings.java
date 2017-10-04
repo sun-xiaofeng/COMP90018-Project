@@ -37,6 +37,14 @@ public class WeatherWarnings {
             case 24: // Windy
                 message.append(condition.getDescription());
                 message.append(". Please close doors and windows. ");
+                break;
+            case 19: // Dust
+            case 20: // Foggy
+            case 21: // Haze
+            case 22: // Smoky
+                message.append(condition.getDescription());
+                message.append(". Be aware on air quality. Please wear masks if you are sensitive.");
+                break;
             default:
                 break;
         }

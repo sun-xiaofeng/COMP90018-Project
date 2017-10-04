@@ -53,6 +53,9 @@ public class BackgroundImages {
             case 30: // Partly cloudy (day)
             case 44: // Partly cloudy
                 return R.drawable.cloudy;
+            case 23: // Blustery
+            case 24: // Windy
+                return R.drawable.windy;
             default:
                 return R.drawable.background_1;
         }
