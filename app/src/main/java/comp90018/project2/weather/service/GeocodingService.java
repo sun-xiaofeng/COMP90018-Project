@@ -15,8 +15,6 @@ import comp90018.project2.weather.listener.GeocodingServiceListener;
 
 
 public class GeocodingService {
-    private static final String TAG = GeocodingService.class.getName();
-
     private Context context;
     private GeocodingServiceListener listener;
     private Exception exception;
@@ -33,7 +31,6 @@ public class GeocodingService {
                 Location location = locations[0];
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
-                Log.d(TAG, String.format("Location: (%f, %f)", latitude, longitude));
                 Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
                 try {
                     List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
@@ -42,7 +39,6 @@ public class GeocodingService {
                         return new GeocodingResult(address.getLocality() + ", " + address.getAdminArea());
                     }
                 } catch (IOException ex) {
-                    Log.e(TAG, ex.toString());
                     exception = ex;
                 }
                 return null;
@@ -53,7 +49,6 @@ public class GeocodingService {
                 if (location == null || exception != null) {
                     listener.geocodeFailure(exception);
                 } else {
-                    Log.d(TAG, location.getAddress());
                     listener.geocodeSuccess(location);
                 }
             }

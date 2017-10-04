@@ -42,9 +42,8 @@ public class ForecastFragment extends Fragment {
     }
 
     public void loadWeatherForecast(Condition forecast, Units unit) {
-        Log.d("ForecastFragment", forecast.getCode() + "");
-        int resourceId = getResources().getIdentifier("drawable/icon_" + forecast.getCode(),
-                null, getActivity().getPackageName());
+        int resourceId = getResources().getIdentifier("drawable/icon_"
+                        + forecast.getCode(), null, getActivity().getPackageName());
         weatherIconImageView.setImageResource(resourceId);
         dayLabelTextView.setText(forecast.getDay());
         String highTemperatureText = forecast.getHighTemperature() + "\u00B0";

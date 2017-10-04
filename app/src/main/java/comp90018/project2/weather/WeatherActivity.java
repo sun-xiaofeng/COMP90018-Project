@@ -126,12 +126,13 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
 
     private void showCurrentWeather(Channel channel) {
         Item item = channel.getItem();
-        int resourceId = getResources().getIdentifier("drawable/icon_" + item.getCondition().getCode(),
-                null, getPackageName());
+        Condition condition = item.getCondition();
+        int resourceId = getResources().getIdentifier("drawable/icon_"
+                        + condition.getCode(), null, getPackageName());
         weatherIconImageView.setImageResource(resourceId);
-        String temperatureText = item.getCondition().getTemperature() + "\u00B0";
+        String temperatureText = condition.getTemperature() + "\u00B0";
         temperatureTextView.setText(temperatureText);
-        conditionTextView.setText(item.getCondition().getDescription());
+        conditionTextView.setText(condition.getDescription());
         locationTextView.setText(channel.getLocation().toString());
         weatherDescriptionTextView.setText(item.toString());
     }
