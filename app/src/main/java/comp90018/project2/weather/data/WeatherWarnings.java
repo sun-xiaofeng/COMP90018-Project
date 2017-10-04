@@ -13,7 +13,7 @@ public class WeatherWarnings {
      * @return a warning message
      */
     public static Optional<String> getWarningMessage(Item item) {
-        Condition condition = item.getCondition();
+        Condition condition = item.getForecast()[0];
         int code = condition.getCode();
         StringBuilder message = new StringBuilder();
         switch (code) {
@@ -57,9 +57,9 @@ public class WeatherWarnings {
                 break;
         }
 
-        if (condition.getHighTemperature() > 32) {
+        if (condition.getHighTemperature() >= 32) {
             message.append("High temperature. Drink more water to prevent heat stroke. ");
-        } else if (condition.getLowTemperature() < 0) {
+        } else if (condition.getLowTemperature() <= 0) {
             message.append("Low temperature. Dress warmly if you're going out. ");
         }
         if (message.length() > 0) {

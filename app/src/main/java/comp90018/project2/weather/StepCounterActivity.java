@@ -134,7 +134,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
             // acceleration.setText("X: " + x + "\nY: " + y + "\nZ: " + z);
             // calculate the magnitude mag^2 = x^2 + y^2 + z^2 and add mag to the list
             // we deal with mag due to count stepsTextView in all directions as magnitude neglects directions.
-            double mag = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(y, 2));
+            double mag = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
             list.add(mag);
             bigList.add(mag);
             // get the time of system and calculate the steps that taken in 2 seconds
