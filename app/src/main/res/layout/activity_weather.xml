@@ -38,7 +38,7 @@
 
             <ImageView
                 android:id="@+id/weatherIconImageView"
-                android:layout_width="0dp"
+                android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/icon_na" />
