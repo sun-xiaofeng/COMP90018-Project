@@ -35,7 +35,7 @@ public class StatisticsUtil {
      * Find the peak steps that user takes
      * @param list Stores all the steps in a list
      * @param minPeak Standard steps parsed from standardDeviation functions
-     * @return Peak steps
+     * @return Number of steps
      */
     public int finAllPeaks(List<Double> list, double minPeak) {
         int counter = 0;
