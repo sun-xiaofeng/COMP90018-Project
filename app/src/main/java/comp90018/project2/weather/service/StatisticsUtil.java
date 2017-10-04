@@ -3,6 +3,11 @@ import java.util.List;
 
 public class StatisticsUtil {
 
+    /**
+     * Calculate the average steps
+     * @param list Stores all the steps in a list
+     * @return Average steps that user takes
+     */
     public double findMean(List<Double> list) {
         double total = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -11,6 +16,12 @@ public class StatisticsUtil {
         return total / list.size();
     }
 
+    /**
+     * Calculate the standard deviation of steps
+     * @param list Stores all the steps in a list
+     * @param mean Average steps parsed from findMean functions
+     * @return Standard deviation steps
+     */
     public double standardDeviation(List<Double> list, double mean) {
         double sum = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -20,6 +31,12 @@ public class StatisticsUtil {
         return Math.sqrt(sum / list.size());
     }
 
+    /**
+     * Find the peak steps that user takes
+     * @param list Stores all the steps in a list
+     * @param minPeak Standard steps parsed from standardDeviation functions
+     * @return Peak steps
+     */
     public int finAllPeaks(List<Double> list, double minPeak) {
         int counter = 0;
         for (int i = 0; i < list.size(); i++) {

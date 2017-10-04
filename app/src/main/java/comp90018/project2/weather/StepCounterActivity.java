@@ -51,6 +51,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         Toolbar toolbar = (Toolbar) findViewById(R.id.step_counter_toolbar);
         setSupportActionBar(toolbar);
 
+        //Initialize variables
         stepsTextView = (TextView) findViewById(R.id.Steps);
         show = (Button) findViewById(R.id.show);
         stepsInTwoSecondTextView = (TextView) findViewById(R.id.steps2sec);
