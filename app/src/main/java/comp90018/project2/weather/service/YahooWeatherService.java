@@ -16,8 +16,6 @@ import comp90018.project2.weather.data.Channel;
 
 
 public class YahooWeatherService {
-
-
     private WeatherServiceCallback callback;
     private String location;
     private Exception exception;

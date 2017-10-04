@@ -109,7 +109,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         if (running) {
             double x = event.values[0];
             double y = event.values[1];
-            // double z = event.values[2];
+            double z = event.values[2];
             // acceleration.setText("X: " + x + "\nY: " + y + "\nZ: " + z);
             // calculate the magnitude mag^2 = x^2 + y^2 + z^2 and add mag to the list
             // we deal with mag due to count stepsTextView in all directions as magnitude neglects directions.
