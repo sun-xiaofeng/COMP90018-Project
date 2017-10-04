@@ -5,7 +5,7 @@ import com.google.common.base.Optional;
 public class WeatherWarnings {
 
     public static Optional<String> getWarningMessage(Item item) {
-        Condition condition = item.getForecast()[0];
+        Condition condition = item.getCondition();
         int code = condition.getCode();
         StringBuilder message = new StringBuilder();
         switch (code) {
@@ -15,7 +15,6 @@ public class WeatherWarnings {
             case 3: // Severe Thunderstorms
             case 4: // Thunderstorms
             case 17: // Hail
-            case 23: // Blustery
             case 37: // Isolated Thunderstorms
             case 38: // Scattered Thunderstorms
             case 39: // Scattered Thunderstorms
@@ -34,6 +33,10 @@ public class WeatherWarnings {
                 message.append(condition.getDescription());
                 message.append(". Please bring an umbrella or raincoat. ");
                 break;
+            case 23: // Blustery
+            case 24: // Windy
+                message.append(condition.getDescription());
+                message.append(". Please close doors and windows. ");
             default:
                 break;
         }
