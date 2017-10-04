@@ -1,6 +1,9 @@
 package comp90018.project2.weather.service;
 import java.util.List;
 
+/**
+ * The StatisticsUtil provides static method for statistics calculations.
+ */
 public class StatisticsUtil {
 
     /**
