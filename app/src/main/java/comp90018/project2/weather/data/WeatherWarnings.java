@@ -2,8 +2,16 @@ package comp90018.project2.weather.data;
 
 import com.google.common.base.Optional;
 
+/**
+ * This class provides warning messages according to the weather condition
+ */
 public class WeatherWarnings {
 
+    /**
+     * Returns a warning message according to the weather condition
+     * @param item the item
+     * @return a warning message
+     */
     public static Optional<String> getWarningMessage(Item item) {
         Condition condition = item.getCondition();
         int code = condition.getCode();
@@ -57,6 +65,6 @@ public class WeatherWarnings {
         if (message.length() > 0) {
             return Optional.of(message.toString());
         }
-        return Optional.absent();
+        return Optional.absent(); // No warning message
     }
 }
