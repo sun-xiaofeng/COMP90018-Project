@@ -130,7 +130,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
                 null, getPackageName());
         weatherIconImageView.setImageResource(resourceId);
         String temperatureText = item.getCondition().getTemperature() + "\u00B0";
-        temperatureTextView.setText(temperatureText);
+        temperatureTextView.setText(temperatureText + " " + item.getForecast()[0].getCode());
         conditionTextView.setText(item.getCondition().getDescription());
         locationTextView.setText(channel.getLocation().toString());
         weatherDescriptionTextView.setText(item.toString());
