@@ -115,7 +115,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         double std = su.standardDeviation(list, mean);
         int stepsNumber = su.finAllPeaks(list, std);
         list.clear();
-        return stepsNumber;
+        return stepsNumber / 4;
     }
 
     /**
