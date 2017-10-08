@@ -95,6 +95,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                     // Start to record the steps and calculate distance
                     running = false;
                     show.setText(R.string.start_button_text);
+                    // Display steps and distance
                     String stepsText = Integer.toString(getSteps(bigList));
                     stepsTextView.setText(stepsText);
                     String distanceText = String.format(Locale.getDefault(), "%.1f m", distance);
