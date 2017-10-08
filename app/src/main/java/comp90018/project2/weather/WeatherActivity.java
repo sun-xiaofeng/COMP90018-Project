@@ -111,13 +111,13 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         showLoadingDialog();
 
         String loc = getIntent().getStringExtra("location");
-        if (loc != null) {
+        if (loc != null) { // Use location from Intent
            weatherService.refreshWeather(loc);
         } else {
             String locationCache = preferences.getString("location_cache", null);
-            if (locationCache != null) {
+            if (locationCache != null) { // Use location from cache
                 weatherService.refreshWeather(locationCache);
-            } else  {
+            } else  { // Use current location
                 getWeatherForCurrentLocation();
             }
         }
