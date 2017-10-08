@@ -115,6 +115,10 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         }
     }
 
+    /**
+     * get the data from JSON, inside of the channel label
+     * @param channel
+     */
     @Override
     public void weatherServiceSuccess(Channel channel) {
         dialog.hide();
@@ -124,18 +128,29 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         setBackgroundImage(channel);
     }
 
+    /**
+     * Process the item field, which is inside of channel field
+     * From field of item, the current situation of weather can be obtained
+     * @param channel
+     */
     private void showCurrentWeather(Channel channel) {
         Item item = channel.getItem();
         int resourceId = getResources().getIdentifier("drawable/icon_" + item.getCondition().getCode(),
                 null, getPackageName());
         weatherIconImageView.setImageResource(resourceId);
         String temperatureText = item.getCondition().getTemperature() + "\u00B0";
-        temperatureTextView.setText(temperatureText + " " + item.getForecast()[0].getCode());
+        temperatureTextView.setText(temperatureText);
         conditionTextView.setText(item.getCondition().getDescription());
         locationTextView.setText(channel.getLocation().toString());
         weatherDescriptionTextView.setText(item.toString());
     }
 
+    /**
+     * Set the warning for meeting the bad weather
+     * It can help people to decide whether to go outside
+     * to keep safety
+     * @param channel
+     */
     private void showWeatherWarning(Channel channel) {
         Item item = channel.getItem();
         Optional<String> warningMessageOptional = WeatherWarnings.getWarningMessage(item);
@@ -153,6 +168,11 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         }
     }
 
+    /**
+     * Display the weather forecasts for 5 days
+     * Each of fragments display one day.
+     * @param channel
+     */
     private void showForecast(Channel channel) {
         Condition[] forecast = channel.getItem().getForecast();
         Units units = channel.getUnits();
@@ -166,6 +186,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         backgroundImageView.setImageResource(resId);
     }
 
+    /**
+     * Throw exception if user types invalid location
+     */
     @Override
     public void weatherServiceFailure(Exception ex) {
         dialog.hide();
@@ -177,6 +200,10 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         dialog.show();
     }
 
+    /**
+     * get the address if the location is correct
+     * @param locationResult location
+     */
     @Override
     public void geocodeSuccess(GeocodingResult locationResult) {
         String location = locationResult.getAddress();
@@ -186,6 +213,10 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         weatherService.refreshWeather(location);
     }
 
+    /**
+     *
+     * @param exception
+     */
     @Override
     public void geocodeFailure(Exception exception) {
         dialog.hide();
