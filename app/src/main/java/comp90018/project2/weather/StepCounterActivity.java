@@ -22,8 +22,10 @@ import java.util.Locale;
 
 import comp90018.project2.weather.service.StatisticsUtil;
 
+/**
+ * The step counter activity. It shows the speed, steps and walking distance.
+ */
 public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
-
     private TextView stepsInTwoSecondTextView;
     private TextView distanceTextView;
     private TextView speedTextView;
@@ -86,11 +88,11 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                         speedTextView.setText("0");
                         stepsTextView.setText("0");
                     } catch (NumberFormatException e) {
-                        // make sure that height is number and valid
+                        // Show an popup warning if the height is invalid
                         Toast.makeText(StepCounterActivity.this, "Invalid height!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    //start to record the steps and calculate distance
+                    // Start to record the steps and calculate distance
                     running = false;
                     show.setText(R.string.start_button_text);
                     String stepsText = Integer.toString(getSteps(bigList));
@@ -115,7 +117,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         double std = su.standardDeviation(list, mean);
         int stepsNumber = su.finAllPeaks(list, std);
         list.clear();
-        return stepsNumber / 4;
+        return stepsNumber;
     }
 
     /**
@@ -131,17 +133,17 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
             double x = event.values[0];
             double y = event.values[1];
             double z = event.values[2];
-            // acceleration.setText("X: " + x + "\nY: " + y + "\nZ: " + z);
-            // calculate the magnitude mag^2 = x^2 + y^2 + z^2 and add mag to the list
+
+            // Calculate the magnitude mag^2 = x^2 + y^2 + z^2 and add mag to the list
             // we deal with mag due to count stepsTextView in all directions as magnitude neglects directions.
             double mag = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
             list.add(mag);
             bigList.add(mag);
-            // get the time of system and calculate the steps that taken in 2 seconds
+            // Get the time of system and calculate the steps that taken in 2 seconds
             endTime = System.currentTimeMillis();
             time = (endTime - startTime) / 1000.0;
             if (time >= 2.0) {
-                // call getSteps function and parse into stepsInTwoSeconds
+                // Call getSteps function and parse into stepsInTwoSeconds
                 int stepsInTwoSeconds = getSteps(list);
                 String stepsInTwoSecondsText = Integer.toString(stepsInTwoSeconds);
                 stepsInTwoSecondTextView.setText(stepsInTwoSecondsText);
@@ -161,11 +163,11 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                 } else if (stepsInTwoSeconds >= 8) {
                     stride = 1.2 * height;
                 }
-                // calculate the distance by stepsInTwoSeconds * stride and sum them up
+                // Calculate the distance by stepsInTwoSeconds * stride and sum them up
                 distance += stepsInTwoSeconds * stride;
-                // calculate the speed by stepsInTwoSeconds * stride / 2
+                // Calculate the speed by stepsInTwoSeconds * stride / 2
                 speed = stepsInTwoSeconds * stride / 2.0;
-                // display the results
+                // Display the results
                 String speedText = String.format(Locale.getDefault(), "%.3f m/s", speed);
                 speedTextView.setText(speedText);
                 startTime = endTime;

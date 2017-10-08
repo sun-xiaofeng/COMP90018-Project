@@ -14,7 +14,7 @@ import comp90018.project2.weather.R;
 import comp90018.project2.weather.WeatherActivity;
 
 /**
- * Adapter to bind a LocationItem List to a view
+ * Adapter to bind a location item List to a view
  */
 public class LocationItemAdapter extends ArrayAdapter<LocationItem> {
 
