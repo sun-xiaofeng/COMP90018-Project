@@ -45,15 +45,16 @@
 
             <ImageView
                 android:id="@+id/weatherIconImageView"
-                android:layout_width="48dp"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
+                android:layout_weight="1"
                 app:srcCompat="@drawable/icon_na" />
 
             <TextView
                 android:id="@+id/conditionTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_gravity="center_vertical"
                 android:shadowColor="@color/text_shadow"
                 android:shadowDx="1"

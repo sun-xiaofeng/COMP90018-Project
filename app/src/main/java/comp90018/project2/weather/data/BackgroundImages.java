@@ -2,8 +2,16 @@ package comp90018.project2.weather.data;
 
 import comp90018.project2.weather.R;
 
-
+/**
+ * This class provides a method to find the image resource id according
+ * to the weather condition
+ */
 public class BackgroundImages {
+    /**
+     * Finds the corresponding image resource id according to the weather condition
+     * @param item the item
+     * @return a resource id
+     */
     public static int getBackgroundImage(Item item) {
         int code = item.getCondition().getCode();
         switch (code) {
@@ -53,7 +61,11 @@ public class BackgroundImages {
             case 30: // Partly cloudy (day)
             case 44: // Partly cloudy
                 return R.drawable.cloudy;
+            case 23: // Blustery
+            case 24: // Windy
+                return R.drawable.windy;
             default:
+                // Use default image otherwise
                 return R.drawable.background_1;
         }
     }

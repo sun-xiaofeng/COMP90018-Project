@@ -2,10 +2,18 @@ package comp90018.project2.weather.data;
 
 import com.google.common.base.Optional;
 
+/**
+ * This class provides warning messages according to the weather condition
+ */
 public class WeatherWarnings {
 
+    /**
+     * Returns a warning message according to the weather condition
+     * @param item the item
+     * @return a warning message
+     */
     public static Optional<String> getWarningMessage(Item item) {
-        Condition condition = item.getCondition();
+        Condition condition = item.getForecast()[0];
         int code = condition.getCode();
         StringBuilder message = new StringBuilder();
         switch (code) {
@@ -37,18 +45,26 @@ public class WeatherWarnings {
             case 24: // Windy
                 message.append(condition.getDescription());
                 message.append(". Please close doors and windows. ");
+                break;
+            case 19: // Dust
+            case 20: // Foggy
+            case 21: // Haze
+            case 22: // Smoky
+                message.append(condition.getDescription());
+                message.append(". Be aware on air quality. Please wear masks if you are sensitive.");
+                break;
             default:
                 break;
         }
 
-        if (condition.getHighTemperature() > 32) {
+        if (condition.getHighTemperature() >= 32) {
             message.append("High temperature. Drink more water to prevent heat stroke. ");
-        } else if (condition.getLowTemperature() < 0) {
+        } else if (condition.getLowTemperature() <= 0) {
             message.append("Low temperature. Dress warmly if you're going out. ");
         }
         if (message.length() > 0) {
             return Optional.of(message.toString());
         }
-        return Optional.absent();
+        return Optional.absent(); // No warning message
     }
 }

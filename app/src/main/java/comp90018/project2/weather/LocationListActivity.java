@@ -44,7 +44,10 @@ import comp90018.project2.weather.location_list.LocationItemAdapter;
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 import static comp90018.project2.weather.R.id.listViewToDo;
 
-
+/**
+ * The LocationListActivity manages a location and sync the list to
+ * the Azure cloud.
+ */
 public class LocationListActivity extends AppCompatActivity {
 
     /**
@@ -56,12 +59,6 @@ public class LocationListActivity extends AppCompatActivity {
      * Mobile Service Table used to access data
      */
     private MobileServiceTable<LocationItem> mLocationItemTable;
-
-    //Offline Sync
-    /**
-     * Mobile Service Table used to access and Sync data
-     */
-    //private MobileServiceSyncTable<LocationItem> mLocationItemTable;
 
     /**
      * Adapter to sync the items list with the view
@@ -336,7 +333,7 @@ public class LocationListActivity extends AppCompatActivity {
 
                     SQLiteLocalStore localStore = new SQLiteLocalStore(mClient.getContext(), "OfflineStore", null, 1);
 
-                    Map<String, ColumnDataType> tableDefinition = new HashMap<String, ColumnDataType>();
+                    Map<String, ColumnDataType> tableDefinition = new HashMap<>();
                     tableDefinition.put("id", ColumnDataType.String);
                     tableDefinition.put("text", ColumnDataType.String);
                     tableDefinition.put("complete", ColumnDataType.Boolean);

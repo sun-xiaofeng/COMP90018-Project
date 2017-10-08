@@ -1,6 +1,9 @@
 package comp90018.project2.weather.location_list;
 
 
+/**
+ * A LocationItem represent an item in the location list.
+ */
 public class LocationItem {
 
     /**

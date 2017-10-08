@@ -37,18 +37,23 @@ import comp90018.project2.weather.data.Units;
 import comp90018.project2.weather.fragments.ForecastFragment;
 import comp90018.project2.weather.listener.GeocodingServiceListener;
 import comp90018.project2.weather.service.GeocodingService;
-import comp90018.project2.weather.service.WeatherServiceCallback;
+import comp90018.project2.weather.listener.WeatherServiceListener;
 import comp90018.project2.weather.service.YahooWeatherService;
 
-
-public class WeatherActivity extends AppCompatActivity implements WeatherServiceCallback,
+/**
+ * The main Activity. It shows the weather forecast and
+ * warning messages for severe weather conditions.
+ */
+public class WeatherActivity extends AppCompatActivity implements WeatherServiceListener,
         LocationListener, GeocodingServiceListener {
 
-    public static final int LOCATION_REQUEST_CODE = 1;
-    public static final int FORECAST_DAYS = 5;
+    private static final int LOCATION_REQUEST_CODE = 1;
+    private static final int FORECAST_DAYS = 5;
 
+    /** The UI elements*/
     private ImageView backgroundImageView;
     private ImageView weatherIconImageView;
+
     private TextView temperatureTextView;
     private TextView conditionTextView;
     private TextView locationTextView;
@@ -56,14 +61,17 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     private TextView weatherWarningTextView;
 
     private View weatherWarningLayout;
-
-    private YahooWeatherService weatherService;
-    private GeocodingService geocodingService;
     private ProgressDialog dialog;
-
     private ForecastFragment[] fragments;
 
+    /** The SharedPreferences, using for location cache */
     private SharedPreferences preferences;
+
+    /** The Yahoo weather service */
+    private YahooWeatherService weatherService;
+    /** The Geocoding service */
+    private GeocodingService geocodingService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,22 +111,18 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         showLoadingDialog();
 
         String loc = getIntent().getStringExtra("location");
-        if (loc != null) {
+        if (loc != null) { // Use location from Intent
            weatherService.refreshWeather(loc);
         } else {
             String locationCache = preferences.getString("location_cache", null);
-            if (locationCache != null) {
+            if (locationCache != null) { // Use location from cache
                 weatherService.refreshWeather(locationCache);
-            } else  {
+            } else  { // Use current location
                 getWeatherForCurrentLocation();
             }
         }
     }
 
-    /**
-     * get the data from JSON, inside of the channel label
-     * @param channel
-     */
     @Override
     public void weatherServiceSuccess(Channel channel) {
         dialog.hide();
@@ -129,27 +133,26 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     }
 
     /**
-     * Process the item field, which is inside of channel field
-     * From field of item, the current situation of weather can be obtained
-     * @param channel
+     * Shows current weather including temperature, condition, location
+     * and weather description
+     * @param channel the channel
      */
     private void showCurrentWeather(Channel channel) {
         Item item = channel.getItem();
-        int resourceId = getResources().getIdentifier("drawable/icon_" + item.getCondition().getCode(),
-                null, getPackageName());
+        Condition condition = item.getCondition();
+        int resourceId = getResources().getIdentifier("drawable/icon_"
+                        + condition.getCode(), null, getPackageName());
         weatherIconImageView.setImageResource(resourceId);
-        String temperatureText = item.getCondition().getTemperature() + "\u00B0";
+        String temperatureText = condition.getTemperature() + "\u00B0";
         temperatureTextView.setText(temperatureText);
-        conditionTextView.setText(item.getCondition().getDescription());
+        conditionTextView.setText(condition.getDescription());
         locationTextView.setText(channel.getLocation().toString());
         weatherDescriptionTextView.setText(item.toString());
     }
 
     /**
-     * Set the warning for meeting the bad weather
-     * It can help people to decide whether to go outside
-     * to keep safety
-     * @param channel
+     * Shows warning messages for severe weather
+     * @param channel the channel
      */
     private void showWeatherWarning(Channel channel) {
         Item item = channel.getItem();
@@ -157,8 +160,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         if (warningMessageOptional.isPresent()) {
             final String textColor = "#8B0000";
             @SuppressWarnings("deprecation")
-            CharSequence warningMessage = Html.fromHtml("<b><font color=" + textColor + ">Warning: </font></b>"
-                    + warningMessageOptional.get());
+            CharSequence warningMessage = Html.fromHtml("<b><font color=" + textColor
+                    + ">Warning: </font></b>" + warningMessageOptional.get());
             weatherWarningTextView.setText(warningMessage);
             weatherWarningTextView.setVisibility(View.VISIBLE);
             weatherWarningLayout.setVisibility(View.VISIBLE);
@@ -169,9 +172,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
     }
 
     /**
-     * Display the weather forecasts for 5 days
-     * Each of fragments display one day.
-     * @param channel
+     * Displays the weather forecast for 5 days
+     * @param channel the channel
      */
     private void showForecast(Channel channel) {
         Condition[] forecast = channel.getItem().getForecast();
@@ -181,29 +183,29 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         }
     }
 
+    /**
+     * Sets background image according to the weather
+     * @param channel the channel
+     */
     private void setBackgroundImage(Channel channel) {
         int resId = BackgroundImages.getBackgroundImage(channel.getItem());
         backgroundImageView.setImageResource(resId);
     }
 
-    /**
-     * Throw exception if user types invalid location
-     */
     @Override
     public void weatherServiceFailure(Exception ex) {
         dialog.hide();
         Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Displays the loading dialog
+     */
     private void showLoadingDialog() {
         dialog.setMessage("Loading...");
         dialog.show();
     }
 
-    /**
-     * get the address if the location is correct
-     * @param locationResult location
-     */
     @Override
     public void geocodeSuccess(GeocodingResult locationResult) {
         String location = locationResult.getAddress();
@@ -213,32 +215,36 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         weatherService.refreshWeather(location);
     }
 
-    /**
-     *
-     * @param exception
-     */
     @Override
     public void geocodeFailure(Exception exception) {
         dialog.hide();
         Toast.makeText(this, exception.getMessage(), Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Retrieves weather forecast for user input location
+     * @param location the search string
+     */
     private void getWeatherBySearch(String location) {
         String regex = "[a-zA-Z ]+(, ?[a-zA-Z ]+)?";
         if (!location.isEmpty()) {
-            if (!location.matches(regex)) {
+            if (!location.matches(regex)) { // Check whether the input only contains letters and comma
                 Toast.makeText(this, "Invalid location!", Toast.LENGTH_SHORT).show();
             } else {
                 showLoadingDialog();
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("location_cache", location);
+                editor.putString("location_cache", location); // Store the location into the cache
                 editor.apply();
                 weatherService.refreshWeather(location);
             }
         }
     }
 
+    /**
+     * Retrieves weather forecast for current location
+     */
     private void getWeatherForCurrentLocation() {
+        // Check the location permission
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
@@ -250,9 +256,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
             boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             Criteria locationCriteria = new Criteria();
 
-            if (isNetworkEnabled) {
+            if (isNetworkEnabled) { // Use network location which is faster
                 locationCriteria.setAccuracy(Criteria.ACCURACY_COARSE);
-            } else if (isGPSEnabled) {
+            } else if (isGPSEnabled) { // Otherwise use GPS
                 locationCriteria.setAccuracy(Criteria.ACCURACY_FINE);
             }
             locationManager.requestSingleUpdate(locationCriteria, this, null);
@@ -338,16 +344,25 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         }
     }
 
+    /**
+     * Switches to compass activity
+     */
     private void startCompassActivity() {
         Intent intent = new Intent(WeatherActivity.this, CompassActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Switches to step counter activity
+     */
     private void startStepCounterActivity() {
         Intent intent = new Intent(WeatherActivity.this, StepCounterActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Switches to location list activity
+     */
     private void startLocationListActivity() {
         Intent intent = new Intent(WeatherActivity.this, LocationListActivity.class);
         startActivity(intent);

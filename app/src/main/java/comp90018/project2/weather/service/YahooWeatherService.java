@@ -13,16 +13,15 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import comp90018.project2.weather.data.Channel;
+import comp90018.project2.weather.listener.WeatherServiceListener;
 
 
 public class YahooWeatherService {
-
-
-    private WeatherServiceCallback callback;
+    private WeatherServiceListener callback;
     private String location;
     private Exception exception;
 
-    public YahooWeatherService(WeatherServiceCallback callback) {
+    public YahooWeatherService(WeatherServiceListener callback) {
         this.callback = callback;
     }
 

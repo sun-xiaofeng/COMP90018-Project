@@ -22,8 +22,10 @@ import java.util.Locale;
 
 import comp90018.project2.weather.service.StatisticsUtil;
 
+/**
+ * The step counter activity. It shows the speed, steps and walking distance.
+ */
 public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
-
     private TextView stepsInTwoSecondTextView;
     private TextView distanceTextView;
     private TextView speedTextView;
@@ -43,6 +45,10 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     private long startTime, endTime;
     private double time, height, stride, speed, distance;
 
+    /**
+     * Main function that creates the step counter activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +57,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         Toolbar toolbar = (Toolbar) findViewById(R.id.step_counter_toolbar);
         setSupportActionBar(toolbar);
 
+        //Initialize variables
         stepsTextView = (TextView) findViewById(R.id.Steps);
         show = (Button) findViewById(R.id.show);
         stepsInTwoSecondTextView = (TextView) findViewById(R.id.steps2sec);
@@ -69,9 +76,11 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                     try {
                         height = Double.parseDouble(heightText.getText().toString()) / 100;
                         running = true;
+                        // Initialise the list to store acceleration
                         list = new ArrayList<>();
                         bigList = new ArrayList<>();
                         show.setText(R.string.result_button_text);
+                        // Initialise all the text fields
                         startTime = System.currentTimeMillis();
                         distance = 0;
                         distanceTextView.setText("0");
@@ -79,9 +88,11 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                         speedTextView.setText("0");
                         stepsTextView.setText("0");
                     } catch (NumberFormatException e) {
+                        // Show an popup warning if the height is invalid
                         Toast.makeText(StepCounterActivity.this, "Invalid height!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
+                    // Start to record the steps and calculate distance
                     running = false;
                     show.setText(R.string.start_button_text);
                     String stepsText = Integer.toString(getSteps(bigList));
@@ -94,6 +105,12 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         });
     }
 
+    /**
+     * Calculate the steps per two seconds that a user takes
+     *
+     * @param list Stores the magnitude of acceleration
+     * @return Number of steps
+     */
     private int getSteps(List<Double> list) {
         StatisticsUtil su = new StatisticsUtil();
         double mean = su.findMean(list);
@@ -103,24 +120,34 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         return stepsNumber;
     }
 
+    /**
+     * Use the sensor to read the acceleration and calculate the magnitude
+     * calculate the steps that the user takes in two seconds by the data
+     * then speed and distance can be given based on the height user entered
+     *
+     * @param event Sensor data
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (running) {
             double x = event.values[0];
             double y = event.values[1];
-            // double z = event.values[2];
-            // acceleration.setText("X: " + x + "\nY: " + y + "\nZ: " + z);
-            // calculate the magnitude mag^2 = x^2 + y^2 + z^2 and add mag to the list
+            double z = event.values[2];
+
+            // Calculate the magnitude mag^2 = x^2 + y^2 + z^2 and add mag to the list
             // we deal with mag due to count stepsTextView in all directions as magnitude neglects directions.
-            double mag = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(y, 2));
+            double mag = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
             list.add(mag);
             bigList.add(mag);
+            // Get the time of system and calculate the steps that taken in 2 seconds
             endTime = System.currentTimeMillis();
             time = (endTime - startTime) / 1000.0;
             if (time >= 2.0) {
+                // Call getSteps function and parse into stepsInTwoSeconds
                 int stepsInTwoSeconds = getSteps(list);
                 String stepsInTwoSecondsText = Integer.toString(stepsInTwoSeconds);
                 stepsInTwoSecondTextView.setText(stepsInTwoSecondsText);
+                // Calculate the stride based on the height of the user
                 if (stepsInTwoSeconds > 0 && stepsInTwoSeconds <= 2) {
                     stride = height / 5;
                 } else if (stepsInTwoSeconds > 2 && stepsInTwoSeconds <= 3) {
@@ -136,8 +163,11 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                 } else if (stepsInTwoSeconds >= 8) {
                     stride = 1.2 * height;
                 }
+                // Calculate the distance by stepsInTwoSeconds * stride and sum them up
                 distance += stepsInTwoSeconds * stride;
+                // Calculate the speed by stepsInTwoSeconds * stride / 2
                 speed = stepsInTwoSeconds * stride / 2.0;
+                // Display the results
                 String speedText = String.format(Locale.getDefault(), "%.3f m/s", speed);
                 speedTextView.setText(speedText);
                 startTime = endTime;
@@ -169,11 +199,17 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         }
     }
 
+    /**
+     * Switch from step counter activity to Compass activity
+     */
     private void startCompassActivity() {
         Intent intent = new Intent(StepCounterActivity.this, CompassActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Switch from step counter activity to weather activity
+     */
     private void startWeatherActivity() {
         Intent intent = new Intent(StepCounterActivity.this, WeatherActivity.class);
         startActivity(intent);

@@ -16,15 +16,22 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
+/**
+ * The CompassActivity is an Activity of a digital compass.
+ */
 public class CompassActivity extends AppCompatActivity implements SensorEventListener {
+    /** The compass image view */
     private ImageView compassImageView;
+    /** The degrees text view */
     private TextView degreesTextView;
 
+    /** The accelerometer sensor data */
     private float[] mGravity = new float[3];
+    /** The megametre sensor data */
     private float[] mGeomagnetic = new float[3];
     private float currentDegree = 0f;
 
+    /***/
     private SensorManager mSensorManager;
 
 
@@ -81,6 +88,10 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         }
     }
 
+    /**
+     * Updates the orientation of the compass according to the rotation matrix
+     * @param R the rotation matrix
+     */
     private void updateCompassOrientation(float[] R) {
         float[] orientation = new float[3];
         SensorManager.getOrientation(R, orientation);
@@ -89,12 +100,14 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         String degreeText = Integer.toString(Math.round(degree)) + (char) 0x00B0;
         degreesTextView.setText(degreeText);
 
+        // Creates a rotate animation
         Animation rotateAnimation = new RotateAnimation(-currentDegree, -degree, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
         currentDegree = degree;
         rotateAnimation.setDuration(1000);
         rotateAnimation.setRepeatCount(0);
+        // Rotate the image
         compassImageView.setAnimation(rotateAnimation);
     }
 
